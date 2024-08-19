@@ -4,7 +4,7 @@ from http import HTTPStatus
 
 from fastapi import HTTPException, Request
 
-from pyvault import models
+from vaultapi import models
 
 
 class RateLimiter:

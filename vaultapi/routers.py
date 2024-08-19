@@ -9,7 +9,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.routing import APIRoute
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
-from pyvault import auth, exceptions, models, rate_limit
+from vaultapi import auth, exceptions, models, rate_limit
 
 LOGGER = logging.getLogger("uvicorn.default")
 security = HTTPBearer()

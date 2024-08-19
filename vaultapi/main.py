@@ -4,8 +4,8 @@ import uvicorn
 from cryptography.fernet import Fernet
 from fastapi import FastAPI
 
-import pyvault
-from pyvault import models, routers, squire
+import vaultapi
+from vaultapi import models, routers, squire
 
 LOGGER = logging.getLogger("uvicorn.default")
 
@@ -29,9 +29,9 @@ def start(**kwargs) -> None:
     models.session.fernet = Fernet(models.env.secret)
     app = FastAPI(
         routes=routers.get_all_routes(),
-        title="PyVault",
+        title="vaultapi",
         description="Lightweight service to serve secrets and environment variables",
-        version=pyvault.version,
+        version=vaultapi.version,
     )
     kwargs = dict(
         host=models.env.host,

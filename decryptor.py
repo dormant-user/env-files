@@ -1,8 +1,8 @@
 import requests
 from cryptography.fernet import Fernet
 
-from pyvault.models import session
-from pyvault.squire import load_env
+from vaultapi.models import session
+from vaultapi.squire import load_env
 
 env = load_env()
 session.fernet = Fernet(env.secret)

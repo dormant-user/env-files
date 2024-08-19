@@ -1,4 +1,4 @@
-import pyvault
+import vaultapi
 
 if __name__ == "__main__":
-    pyvault.start()
+    vaultapi.start()

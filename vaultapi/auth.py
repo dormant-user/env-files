@@ -6,7 +6,7 @@ from http import HTTPStatus
 from fastapi import Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
-from pyvault import exceptions, models
+from vaultapi import exceptions, models
 
 LOGGER = logging.getLogger("uvicorn.default")
 EPOCH = lambda: int(time.time())  # noqa: E731

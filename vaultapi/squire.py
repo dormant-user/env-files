@@ -4,7 +4,7 @@ import pathlib
 
 import yaml
 
-from pyvault.models import EnvConfig
+from vaultapi.models import EnvConfig
 
 
 def envfile_loader(filename: str | os.PathLike) -> EnvConfig:
