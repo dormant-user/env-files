@@ -1,0 +1,43 @@
+[project]
+name = "VaultAPI"
+dynamic = ["version", "dependencies"]
+description = "API to create and retrieve secrets from an encrypted vault."
+readme = "README.md"
+authors = [{ name = "Vignesh Rao", email = "svignesh1793@gmail.com" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Development Status :: 2 - Pre-Alpha",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux"
+]
+keywords = ["vaultapi", "vault", "fastapi"]
+requires-python = ">=3.10"
+
+[tool.setuptools]
+packages = ["vaultapi"]
+
+[tool.setuptools.dynamic]
+version = {attr = "vaultapi.version"}
+dependencies = { file = ["requirements.txt"] }
+
+[project.optional-dependencies]
+dev = ["sphinx==5.1.1", "pre-commit", "recommonmark", "gitverse"]
+
+[project.scripts]
+# sends all the args to commandline function, where the arbitary commands as processed accordingly
+vaultapi = "vaultapi:commandline"
+
+[build-system]
+requires      = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+Homepage = "https://github.com/thevickypedia/VaultAPI"
+Docs = "https://thevickypedia.github.io/VaultAPI"
+Source = "https://github.com/thevickypedia/VaultAPI"
+"Bug Tracker" = "https://github.com/thevickypedia/VaultAPI/issues"
+"Release Notes" = "https://github.com/thevickypedia/VaultAPI/blob/main/release_notes.rst"
