@@ -1,6 +1,7 @@
 import logging
 
 import uvicorn
+from cryptography.fernet import Fernet
 from fastapi import FastAPI
 
 import pyvault
@@ -25,6 +26,7 @@ def start(**kwargs) -> None:
         log_config: Logging configuration as a dict or a FilePath. Supports .yaml/.yml, .json or .ini formats.
     """
     models.env = squire.load_env(**kwargs)
+    models.session.fernet = Fernet(models.env.secret)
     app = FastAPI(
         routes=routers.get_all_routes(),
         title="PyVault",

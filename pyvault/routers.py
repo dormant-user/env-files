@@ -1,4 +1,6 @@
 import logging
+import os
+import pathlib
 from http import HTTPStatus
 from typing import Dict, List
 
@@ -13,16 +15,19 @@ LOGGER = logging.getLogger("uvicorn.default")
 security = HTTPBearer()
 
 
-async def get_env(
+async def get_secret(
     request: Request,
+    filename: str,
+    filepath: str | None = None,
     apikey: HTTPAuthorizationCredentials = Depends(security),
 ):
-    """**API function to monitor a service.**
+    """**API function to retreieve secrets.**
 
     **Args:**
 
         request: Reference to the FastAPI request object.
-        service_name: Name of the service to check status.
+        filename: Filename for the secrets.
+        filepath: Parent directory for the secrets.
         apikey: API Key to authenticate the request.
 
     **Raises:**
@@ -30,9 +35,24 @@ async def get_env(
         APIResponse:
         Raises the HTTPStatus object with a status code and detail as response.
     """
+    # TODO: convert these functions to database storage with encryption
+    #   include GET and PUT
     await auth.validate(request, apikey)
+    if filepath:
+        secrets_file = pathlib.Path(os.path.join(filepath, filename))
+    else:
+        secrets_file = models.env.secrets_path.joinpath(filename)
+    try:
+        assert secrets_file.exists()
+    except AssertionError:
+        LOGGER.error("404 - %s", secrets_file)
+        raise exceptions.APIResponse(
+            status_code=HTTPStatus.NOT_FOUND.real, detail=f"{secrets_file!r} not found!"
+        )
+    rawdata = secrets_file.read_bytes()
+    encrypted = models.session.fernet.encrypt(rawdata)
     raise exceptions.APIResponse(
-        status_code=HTTPStatus.OK.real, detail=HTTPStatus.OK.phrase
+        status_code=HTTPStatus.OK.real, detail=encrypted.decode()
     )
 
 
@@ -73,8 +93,8 @@ def get_all_routes() -> List[APIRoute]:
             path="/health", endpoint=health, methods=["GET"], include_in_schema=False
         ),
         APIRoute(
-            path="/get-env",
-            endpoint=get_env,
+            path="/get-secret",
+            endpoint=get_secret,
             methods=["GET"],
             dependencies=dependencies,
         ),
