@@ -4,16 +4,24 @@ from cryptography.fernet import Fernet
 from pyvault.models import session
 from pyvault.squire import load_env
 
-if __name__ == "__main__":
-    env = load_env()
-    session.fernet = Fernet(env.secret)
-    base_url = f"http://{env.host}:{env.port}"
-    health = f"{base_url}/health"
-    assert requests.get(health).status_code == 200
-    get_url = f"{base_url}/get-secret"
+env = load_env()
+session.fernet = Fernet(env.secret)
+
+BASE_URL = f"http://{env.host}:{env.port}"
+assert requests.get(f"{BASE_URL}/health").status_code == 200
+
+
+def get_secret(filename: str, filepath: str):
+    """Get secret file contents from the API.
+
+    Args:
+        filename: Filename to source secrets.
+        filepath: Parent directory path for the secrets file.
+    """
+    get_url = f"{BASE_URL}/get-secret"
     response = requests.get(
         url=get_url,
-        params={"filename": ".sample"},
+        params={"filename": filename, "filepath": filepath},
         headers={"Authorization": f"Bearer {env.apikey}"},
     )
     encrypted = response.json().get("detail")
