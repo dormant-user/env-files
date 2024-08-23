@@ -5,7 +5,7 @@ from cryptography.fernet import Fernet
 
 from vaultapi.main import start  # noqa: F401
 
-version = "0.0.0"
+version = "0.0.0-a"
 
 
 @click.command()
