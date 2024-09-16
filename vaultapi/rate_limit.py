@@ -4,7 +4,7 @@ from http import HTTPStatus
 
 from fastapi import HTTPException, Request
 
-from vaultapi import models
+from . import models
 
 
 class RateLimiter:

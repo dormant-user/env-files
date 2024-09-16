@@ -3,9 +3,7 @@ import sys
 import click
 from cryptography.fernet import Fernet
 
-from vaultapi.main import start  # noqa: F401
-
-version = "0.0.0-a"
+from .main import start, version
 
 
 @click.command()
@@ -46,7 +44,7 @@ def commandline(*args, **kwargs) -> None:
         for k, v in options.items()
     )
     if kwargs.get("version"):
-        click.echo(f"vaultapi {version}")
+        click.echo(f"vaultapi {version.__version__}")
         sys.exit(0)
     if kwargs.get("help"):
         click.echo(

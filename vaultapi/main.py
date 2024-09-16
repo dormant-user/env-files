@@ -1,13 +1,17 @@
 import logging
+import pathlib
 
 import uvicorn
-from cryptography.fernet import Fernet
 from fastapi import FastAPI
 
-import vaultapi
-from vaultapi import models, routers, squire
+from . import models, routers, squire, version
 
 LOGGER = logging.getLogger("uvicorn.default")
+VaultAPI = FastAPI(
+    title="VaultAPI",
+    description="Lightweight service to serve secrets and environment variables",
+    version=version.__version__,
+)
 
 
 def start(**kwargs) -> None:
@@ -25,18 +29,16 @@ def start(**kwargs) -> None:
         log_config: Logging configuration as a dict or a FilePath. Supports .yaml/.yml, .json or .ini formats.
     """
     models.env = squire.load_env(**kwargs)
-    models.session.fernet = Fernet(models.env.secret)
-    app = FastAPI(
-        routes=routers.get_all_routes(),
-        title="vaultapi",
-        description="Lightweight service to serve secrets and environment variables",
-        version=vaultapi.version,
-    )
+    # models.session.fernet = Fernet(models.env.secret)
+    models.database = models.Database(models.env.database)
+    models.database.create_table("default", ["key", "value"])
+    module_name = pathlib.Path(__file__)
+    VaultAPI.routes.extend(routers.get_all_routes())
     kwargs = dict(
         host=models.env.host,
         port=models.env.port,
         workers=models.env.workers,
-        app=app,
+        app=f"{module_name.parent.stem}.{module_name.stem}:{VaultAPI.title}",
     )
     if models.env.log_config:
         kwargs["log_config"] = models.env.log_config

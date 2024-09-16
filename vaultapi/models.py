@@ -1,10 +1,47 @@
 import pathlib
 import socket
-from typing import Any, Dict, List, Set
+import sqlite3
+from typing import Any, Dict, List, Set, Tuple
 
 from cryptography.fernet import Fernet
-from pydantic import BaseModel, DirectoryPath, FilePath, PositiveInt
+from pydantic import BaseModel, Field, FilePath, PositiveInt
 from pydantic_settings import BaseSettings
+
+
+class Database:
+    """Creates a connection and instantiates the cursor.
+
+    >>> Database
+
+    Args:
+        filepath: Name of the database file.
+        timeout: Timeout for the connection to database.
+    """
+
+    def __init__(self, filepath: FilePath | str, timeout: int = 10):
+        """Instantiates the class ``Database`` to create a connection and a cursor."""
+        if not filepath.endswith(".db"):
+            filepath = filepath + ".db"
+        self.connection = sqlite3.connect(
+            database=filepath, check_same_thread=False, timeout=timeout
+        )
+
+    def create_table(self, table_name: str, columns: List[str] | Tuple[str]) -> None:
+        """Creates the table with the required columns.
+
+        Args:
+            table_name: Name of the table that has to be created.
+            columns: List of columns that has to be created.
+        """
+        with self.connection:
+            cursor = self.connection.cursor()
+            # Use f-string or %s as table names cannot be parametrized
+            cursor.execute(
+                f"CREATE TABLE IF NOT EXISTS {table_name!r} ({', '.join(columns)})"
+            )
+
+
+database: Database = Database  # noqa: PyTypeChecker
 
 
 class RateLimit(BaseModel):
@@ -44,14 +81,14 @@ class EnvConfig(BaseSettings):
     """
 
     apikey: str
-    secret: str
+    # secret: str
+    database: str = Field("secrets.db", pattern=".*.db$")
     host: str = socket.gethostbyname("localhost") or "0.0.0.0"
     port: PositiveInt = 8080
     workers: PositiveInt = 1
     log_config: FilePath | Dict[str, Any] | None = None
     allowed_origins: List[str] = []
     rate_limit: RateLimit | List[RateLimit] = []
-    secrets_path: DirectoryPath = "secrets"
 
     @classmethod
     def from_env_file(cls, env_file: pathlib.Path) -> "EnvConfig":
@@ -74,5 +111,6 @@ class EnvConfig(BaseSettings):
         arbitrary_types_allowed = True
 
 
-env = EnvConfig
+# noinspection PyTypeChecker
+env: EnvConfig = EnvConfig
 session = Session()
