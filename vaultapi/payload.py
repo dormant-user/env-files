@@ -1,4 +1,4 @@
-from pydantic import BaseModel, FilePath, DirectoryPath
+from pydantic import BaseModel
 
 
 class DeleteSecret(BaseModel):

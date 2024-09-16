@@ -2,6 +2,7 @@ import logging
 import pathlib
 
 import uvicorn
+from cryptography.fernet import Fernet
 from fastapi import FastAPI
 
 from . import models, routers, squire, version
@@ -29,7 +30,7 @@ def start(**kwargs) -> None:
         log_config: Logging configuration as a dict or a FilePath. Supports .yaml/.yml, .json or .ini formats.
     """
     models.env = squire.load_env(**kwargs)
-    # models.session.fernet = Fernet(models.env.secret)
+    models.session.fernet = Fernet(models.env.secret)
     models.database = models.Database(models.env.database)
     models.database.create_table("default", ["key", "value"])
     module_name = pathlib.Path(__file__)

@@ -57,7 +57,8 @@ async def get_secret(
     await auth.validate(request, apikey)
     if value := await retrieve_existing(key, table_name):
         LOGGER.info("Secret value for '%s' was retrieved", key)
-        raise exceptions.APIResponse(status_code=HTTPStatus.OK.real, detail=value)
+        decrypted = models.session.fernet.decrypt(value).decode(encoding="UTF-8")
+        raise exceptions.APIResponse(status_code=HTTPStatus.OK.real, detail=decrypted)
     LOGGER.info("Secret value for '%s' NOT found in the datastore", key)
     raise exceptions.APIResponse(
         status_code=HTTPStatus.NOT_FOUND.real, detail=HTTPStatus.NOT_FOUND.phrase
@@ -86,8 +87,13 @@ async def put_secret(
     if await retrieve_existing(data.key, data.table_name):
         LOGGER.info("Secret value for '%s' will be overridden", data.key)
     else:
-        LOGGER.info("Storing a secret value for '%s' in the datastore", data.key)
-    database.put_secret(key=data.key, value=data.value, table_name=data.table_name)
+        LOGGER.info(
+            "Storing a secret value for '%s' to the table '%s' in the datastore",
+            data.key,
+            data.table_name,
+        )
+    encrypted = models.session.fernet.encrypt(data.value.encode(encoding="UTF-8"))
+    database.put_secret(key=data.key, value=encrypted, table_name=data.table_name)
     raise exceptions.APIResponse(
         status_code=HTTPStatus.OK.real, detail=HTTPStatus.OK.phrase
     )
