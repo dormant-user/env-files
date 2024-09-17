@@ -3,6 +3,38 @@ from typing import List, Tuple
 from . import models
 
 
+def table_exists(table_name: str) -> bool:
+    """Function to check if a table exists in the database.
+
+    Args:
+        table_name: Name of the table to check.
+    """
+    with models.database.connection:
+        cursor = models.database.connection.cursor()
+        cursor.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
+            (table_name,),
+        )
+        result = cursor.fetchone()
+    if result:
+        return True
+
+
+def create_table(table_name: str, columns: List[str] | Tuple[str]) -> None:
+    """Creates the table with the required columns.
+
+    Args:
+        table_name: Name of the table that has to be created.
+        columns: List of columns that has to be created.
+    """
+    with models.database.connection:
+        cursor = models.database.connection.cursor()
+        # Use f-string or %s as table names cannot be parametrized
+        cursor.execute(
+            f"CREATE TABLE IF NOT EXISTS {table_name!r} ({', '.join(columns)})"
+        )
+
+
 def get_secret(key: str, table_name: str) -> str | None:
     """Function to retrieve secret from database.
 
@@ -66,4 +98,16 @@ def remove_secret(key: str, table_name: str) -> None:
     with models.database.connection:
         cursor = models.database.connection.cursor()
         cursor.execute(f'DELETE FROM "{table_name}" WHERE key=(?)', (key,))
+        models.database.connection.commit()
+
+
+def drop_table(table_name: str) -> None:
+    """Function to drop a table from the database.
+
+    Args:
+        table_name: Name of the table to be dropped.
+    """
+    with models.database.connection:
+        cursor = models.database.connection.cursor()
+        cursor.execute(f'DROP TABLE IF EXISTS "{table_name}"')
         models.database.connection.commit()

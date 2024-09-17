@@ -6,7 +6,7 @@ from cryptography.fernet import Fernet
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from . import models, routes, squire, version
+from . import database, models, routes, squire, version
 
 LOGGER = logging.getLogger("uvicorn.default")
 VaultAPI = FastAPI(
@@ -14,6 +14,13 @@ VaultAPI = FastAPI(
     description="Lightweight service to serve secrets and environment variables",
     version=version.__version__,
 )
+
+
+def __init__(**kwargs) -> None:
+    """Instantiates the env, session and database connections."""
+    models.env = squire.load_env(**kwargs)
+    models.session.fernet = Fernet(models.env.secret)
+    models.database = models.Database(models.env.database)
 
 
 def enable_cors() -> None:
@@ -24,9 +31,8 @@ def enable_cors() -> None:
         "https://localhost.com",
     ]
     for website in models.env.endpoints:
-        origins.extend(
-            [f"http://{website.host}", f"https://{website.host}"]
-        )  # noqa: HttpUrlsUsage
+        origins.append(f"http://{website.host}")  # noqa: HttpUrlsUsage
+        origins.append(f"https://{website.host}")
     VaultAPI.add_middleware(
         CORSMiddleware,  # noqa: PyTypeChecker
         allow_origins=origins,
@@ -55,10 +61,8 @@ def start(**kwargs) -> None:
         rate_limit: List of dictionaries with ``max_requests`` and ``seconds`` to apply as rate limit.
         log_config: Logging configuration as a dict or a FilePath. Supports .yaml/.yml, .json or .ini formats.
     """
-    models.env = squire.load_env(**kwargs)
-    models.session.fernet = Fernet(models.env.secret)
-    models.database = models.Database(models.env.database)
-    models.database.create_table("default", ["key", "value"])
+    __init__(**kwargs)
+    database.create_table("default", ["key", "value"])
     module_name = pathlib.Path(__file__)
     enable_cors()
     VaultAPI.routes.extend(routes.get_all_routes())

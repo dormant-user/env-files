@@ -1,3 +1,5 @@
+from typing import Dict
+
 from pydantic import BaseModel
 
 
@@ -15,10 +17,21 @@ class DeleteSecret(BaseModel):
 class PutSecret(BaseModel):
     """Payload for put-secret API call.
 
-    >>> DeleteSecret
+    >>> PutSecret
 
     """
 
     key: str
     value: str
+    table_name: str = "default"
+
+
+class PutSecrets(BaseModel):
+    """Payload for put-secrets API call.
+
+    >>> PutSecret
+
+    """
+
+    secrets: Dict[str, str]
     table_name: str = "default"

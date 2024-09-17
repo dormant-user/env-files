@@ -47,7 +47,7 @@ Models
 
 ====
 
-.. automodule:: vaultapi.models.EnvConfig(BaseSettings)
+.. automodule:: vaultapi.models
    :exclude-members: RateLimit, Session, EnvConfig
 
 Payload
@@ -75,6 +75,11 @@ Squire
 ======
 
 .. automodule:: vaultapi.squire
+
+Util
+====
+
+.. automodule:: vaultapi.util
 
 Indices and tables
 ==================

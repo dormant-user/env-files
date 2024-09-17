@@ -2,7 +2,7 @@ import pathlib
 import re
 import socket
 import sqlite3
-from typing import Any, Dict, List, Set, Tuple
+from typing import Any, Dict, List, Set
 
 from cryptography.fernet import Fernet
 from pydantic import (
@@ -83,20 +83,6 @@ class Database:
             database=filepath, check_same_thread=False, timeout=timeout
         )
 
-    def create_table(self, table_name: str, columns: List[str] | Tuple[str]) -> None:
-        """Creates the table with the required columns.
-
-        Args:
-            table_name: Name of the table that has to be created.
-            columns: List of columns that has to be created.
-        """
-        with self.connection:
-            cursor = self.connection.cursor()
-            # Use f-string or %s as table names cannot be parametrized
-            cursor.execute(
-                f"CREATE TABLE IF NOT EXISTS {table_name!r} ({', '.join(columns)})"
-            )
-
 
 database: Database = Database  # noqa: PyTypeChecker
 
@@ -150,8 +136,8 @@ class EnvConfig(BaseSettings):
 
     @field_validator("endpoints", mode="after", check_fields=True)
     def parse_endpoints(
-        cls, value: HttpUrl | List[HttpUrl]
-    ) -> List[HttpUrl]:  # noqa: PyMethodParameters
+        cls, value: HttpUrl | List[HttpUrl]  # noqa: PyMethodParameters
+    ) -> List[HttpUrl]:
         """Validate endpoints to enable CORS policy."""
         if isinstance(value, list):
             return value
@@ -169,8 +155,8 @@ class EnvConfig(BaseSettings):
 
     @field_validator("secret", mode="after")
     def parse_api_secret(
-        cls, value: str | None
-    ) -> str | None:  # noqa: PyMethodParameters
+        cls, value: str | None  # noqa: PyMethodParameters
+    ) -> str | None:
         """Parse API secret to validate complexity."""
         if value:
             try:

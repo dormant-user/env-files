@@ -124,6 +124,31 @@
 <section id="module-vaultapi.database">
 <span id="database"></span><h1>Database<a class="headerlink" href="#module-vaultapi.database" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
+<dt class="sig sig-object py" id="vaultapi.database.table_exists">
+<span class="sig-prename descclassname"><span class="pre">vaultapi.database.</span></span><span class="sig-name descname"><span class="pre">table_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#vaultapi.database.table_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to check if a table exists in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>table_name</strong> – Name of the table to check.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vaultapi.database.create_table">
+<span class="sig-prename descclassname"><span class="pre">vaultapi.database.</span></span><span class="sig-name descname"><span class="pre">create_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#vaultapi.database.create_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the table with the required columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table_name</strong> – Name of the table that has to be created.</p></li>
+<li><p><strong>columns</strong> – List of columns that has to be created.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="vaultapi.database.get_secret">
 <span class="sig-prename descclassname"><span class="pre">vaultapi.database.</span></span><span class="sig-name descname"><span class="pre">get_secret</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#vaultapi.database.get_secret" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to retrieve secret from database.</p>
@@ -185,6 +210,17 @@
 <li><p><strong>key</strong> – Name of the secret to be removed.</p></li>
 <li><p><strong>table_name</strong> – Name of the table where the secret is stored.</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vaultapi.database.drop_table">
+<span class="sig-prename descclassname"><span class="pre">vaultapi.database.</span></span><span class="sig-name descname"><span class="pre">drop_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#vaultapi.database.drop_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to drop a table from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>table_name</strong> – Name of the table to be dropped.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -381,10 +417,65 @@
 </dd></dl>
 
 <hr class="docutils" />
-<span class="target" id="module-vaultapi.models.EnvConfig-BaseSettings"></span><p>Object to load environment variables.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">EnvConfig</span>
+<span class="target" id="module-vaultapi.models"></span><dl class="py function">
+<dt class="sig sig-object py" id="vaultapi.models.complexity_checker">
+<span class="sig-prename descclassname"><span class="pre">vaultapi.models.</span></span><span class="sig-name descname"><span class="pre">complexity_checker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">secret</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simple</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#vaultapi.models.complexity_checker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifies the strength of a secret.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>secret</strong> – Value of the secret.</p></li>
+<li><p><strong>simple</strong> – Boolean flag to increase complexity.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>A secret is considered strong if it at least has:</p>
+<ul class="simple">
+<li><p>32 characters</p></li>
+<li><p>1 digit</p></li>
+<li><p>1 symbol</p></li>
+<li><p>1 uppercase letter</p></li>
+<li><p>1 lowercase letter</p></li>
+</ul>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>AssertionError</strong> – When at least 1 of the above conditions fail to match.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="vaultapi.models.Database">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">vaultapi.models.</span></span><span class="sig-name descname"><span class="pre">Database</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vaultapi.models.Database" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a connection and instantiates the cursor.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Database</span>
 </pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath</strong> – Name of the database file.</p></li>
+<li><p><strong>timeout</strong> – Timeout for the connection to database.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vaultapi.models.database">
+<span class="sig-prename descclassname"><span class="pre">vaultapi.models.</span></span><span class="sig-name descname"><span class="pre">database</span></span><a class="headerlink" href="#vaultapi.models.database" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#vaultapi.models.Database" title="vaultapi.models.Database"><code class="xref py py-class docutils literal notranslate"><span class="pre">Database</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vaultapi.models.env">
+<span class="sig-prename descclassname"><span class="pre">vaultapi.models.</span></span><span class="sig-name descname"><span class="pre">env</span></span><a class="headerlink" href="#vaultapi.models.env" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#vaultapi.models.EnvConfig" title="vaultapi.models.EnvConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">EnvConfig</span></code></a></p>
+</dd></dl>
+
 </section>
 <section id="payload">
 <h1>Payload<a class="headerlink" href="#payload" title="Permalink to this heading">¶</a></h1>
@@ -412,7 +503,7 @@
 <dt class="sig sig-object py" id="vaultapi.payload.PutSecret">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">vaultapi.payload.</span></span><span class="sig-name descname"><span class="pre">PutSecret</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">BaseModel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vaultapi.payload.PutSecret" title="Permalink to this definition">¶</a></dt>
 <dd><p>Payload for put-secret API call.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">DeleteSecret</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">PutSecret</span>
 </pre></div>
 </div>
 <dl class="py attribute">
@@ -572,6 +663,23 @@ Raises the HTTPStatus object with a status code and detail as response.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="vaultapi.routes.put_secrets">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">vaultapi.routes.</span></span><span class="sig-name descname"><span class="pre">put_secrets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PutSecrets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apikey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">HTTPAuthorizationCredentials</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Depends(HTTPBearer)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vaultapi.routes.put_secrets" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>API function to add multiple secrets to a table in the database.</strong></p>
+<p><strong>Args:</strong></p>
+<blockquote>
+<div><p>request: Reference to the FastAPI request object.
+data: Payload with <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">value</span></code>, and <code class="docutils literal notranslate"><span class="pre">table_name</span></code> as body.
+apikey: API Key to authenticate the request.</p>
+</div></blockquote>
+<p><strong>Raises:</strong></p>
+<blockquote>
+<div><p>APIResponse:
+Raises the HTTPStatus object with a status code and detail as response.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="vaultapi.routes.delete_secret">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">vaultapi.routes.</span></span><span class="sig-name descname"><span class="pre">delete_secret</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#vaultapi.payload.DeleteSecret" title="vaultapi.payload.DeleteSecret"><span class="pre">DeleteSecret</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">apikey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">HTTPAuthorizationCredentials</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Depends(HTTPBearer)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vaultapi.routes.delete_secret" title="Permalink to this definition">¶</a></dt>
 <dd><p><strong>API function to delete secrets from database.</strong></p>
@@ -686,6 +794,24 @@ Raises the HTTPStatus object with a status code and detail as response.</p>
 </dd></dl>
 
 </section>
+<section id="module-vaultapi.util">
+<span id="util"></span><h1>Util<a class="headerlink" href="#module-vaultapi.util" title="Permalink to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="vaultapi.util.dotenv_to_table">
+<span class="sig-prename descclassname"><span class="pre">vaultapi.util.</span></span><span class="sig-name descname"><span class="pre">dotenv_to_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dotenv_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_existing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#vaultapi.util.dotenv_to_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store all the env vars from a .env file into the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table_name</strong> – Name of the table to store secrets.</p></li>
+<li><p><strong>dotenv_file</strong> – Dot env filename.</p></li>
+<li><p><strong>drop_existing</strong> – Boolean flag to drop existing table.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 <section id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">¶</a></h1>
 <ul class="simple">
@@ -715,6 +841,7 @@ Raises the HTTPStatus object with a status code and detail as response.</p>
 <li><a class="reference internal" href="#module-vaultapi.rate_limit">RateLimit</a></li>
 <li><a class="reference internal" href="#module-vaultapi.routes">API Routes</a></li>
 <li><a class="reference internal" href="#module-vaultapi.squire">Squire</a></li>
+<li><a class="reference internal" href="#module-vaultapi.util">Util</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 

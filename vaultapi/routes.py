@@ -213,6 +213,33 @@ async def put_secret(
     )
 
 
+async def put_secrets(
+    request: Request,
+    data: payload.PutSecrets,
+    apikey: HTTPAuthorizationCredentials = Depends(security),
+):
+    """**API function to add multiple secrets to a table in the database.**
+
+    **Args:**
+
+        request: Reference to the FastAPI request object.
+        data: Payload with ``key``, ``value``, and ``table_name`` as body.
+        apikey: API Key to authenticate the request.
+
+    **Raises:**
+
+        APIResponse:
+        Raises the HTTPStatus object with a status code and detail as response.
+    """
+    await auth.validate(request, apikey)
+    for key, value in data.secrets.items():
+        encrypted = models.session.fernet.encrypt(value.encode(encoding="UTF-8"))
+        database.put_secret(key=key, value=encrypted, table_name=data.table_name)
+    raise exceptions.APIResponse(
+        status_code=HTTPStatus.OK.real, detail=HTTPStatus.OK.phrase
+    )
+
+
 async def delete_secret(
     request: Request,
     data: payload.DeleteSecret,
@@ -265,7 +292,7 @@ async def create_table(
     """
     await auth.validate(request, apikey)
     try:
-        models.database.create_table(table_name, ["key", "value"])
+        database.create_table(table_name, ["key", "value"])
     except sqlite3.OperationalError as error:
         LOGGER.error(error)
         raise exceptions.APIResponse(
