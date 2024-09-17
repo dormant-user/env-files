@@ -24,7 +24,9 @@ def enable_cors() -> None:
         "https://localhost.com",
     ]
     for website in models.env.endpoints:
-        origins.extend([f"http://{website.host}", f"https://{website.host}"])  # noqa: HttpUrlsUsage
+        origins.extend(
+            [f"http://{website.host}", f"https://{website.host}"]
+        )  # noqa: HttpUrlsUsage
     VaultAPI.add_middleware(
         CORSMiddleware,  # noqa: PyTypeChecker
         allow_origins=origins,

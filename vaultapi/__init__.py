@@ -25,9 +25,6 @@ def commandline(*args, **kwargs) -> None:
         - ``--version | -V``: Prints the version.
         - ``--help | -H``: Prints the help section.
         - ``--env | -E``: Environment configuration filepath.
-
-    **Commands**
-        ``encryptor | decryptor``: Initiates the API server.
     """
     assert sys.argv[0].lower().endswith("vaultapi"), "Invalid commandline trigger!!"
     options = {

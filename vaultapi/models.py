@@ -5,7 +5,15 @@ import sqlite3
 from typing import Any, Dict, List, Set, Tuple
 
 from cryptography.fernet import Fernet
-from pydantic import BaseModel, Field, FilePath, NewPath, PositiveInt, field_validator, HttpUrl
+from pydantic import (
+    BaseModel,
+    Field,
+    FilePath,
+    HttpUrl,
+    NewPath,
+    PositiveInt,
+    field_validator,
+)
 from pydantic_settings import BaseSettings
 
 
@@ -141,7 +149,9 @@ class EnvConfig(BaseSettings):
     rate_limit: RateLimit | List[RateLimit] = []
 
     @field_validator("endpoints", mode="after", check_fields=True)
-    def parse_endpoints(cls, value: HttpUrl | List[HttpUrl]) -> List[HttpUrl]:  # noqa: PyMethodParameters
+    def parse_endpoints(
+        cls, value: HttpUrl | List[HttpUrl]
+    ) -> List[HttpUrl]:  # noqa: PyMethodParameters
         """Validate endpoints to enable CORS policy."""
         if isinstance(value, list):
             return value
@@ -158,7 +168,9 @@ class EnvConfig(BaseSettings):
             return value
 
     @field_validator("secret", mode="after")
-    def parse_api_secret(cls, value: str | None) -> str | None:  # noqa: PyMethodParameters
+    def parse_api_secret(
+        cls, value: str | None
+    ) -> str | None:  # noqa: PyMethodParameters
         """Parse API secret to validate complexity."""
         if value:
             try:
