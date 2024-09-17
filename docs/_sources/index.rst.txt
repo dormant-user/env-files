@@ -76,11 +76,6 @@ Squire
 
 .. automodule:: vaultapi.squire
 
-Util
-====
-
-.. automodule:: vaultapi.util
-
 Indices and tables
 ==================
 

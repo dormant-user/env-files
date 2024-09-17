@@ -13,9 +13,9 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'VaultAPI'
-copyright = '2024, Vignesh Rao'
-author = 'Vignesh Rao'
+project = "VaultAPI"
+copyright = "2024, Vignesh Rao"
+author = "Vignesh Rao"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

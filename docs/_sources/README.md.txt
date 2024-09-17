@@ -61,6 +61,23 @@ vaultapi start
 - **DATABASE** - FilePath to store the secrets' database.
 - **RATE_LIMIT** - List of dictionaries with `max_requests` and `seconds` to apply as rate limit.
 
+<details>
+<summary>Auto generate a <code>SECRET</code> value</summary>
+
+This value will be used to encrypt/decrypt the secrets stored in the database.
+
+**CLI**
+```shell
+vaultapi keygen
+```
+
+**IDE**
+```python
+from cryptography.fernet import Fernet
+print(Fernet.generate_key())
+```
+</details>
+
 ## Coding Standards
 Docstring format: [`Google`][google-docs] <br>
 Styling conventions: [`PEP 8`][pep8] and [`isort`][isort]
@@ -106,8 +123,6 @@ pre-commit run --all-files
 
 Licensed under the [MIT License][license]
 
-[//]: # (Labels)
-
 [label-actions-markdown]: https://github.com/thevickypedia/VaultAPI/actions/workflows/markdown.yaml/badge.svg
 [label-pypi-package]: https://img.shields.io/badge/Pypi%20Package-VaultAPI-blue?style=for-the-badge&logo=Python
 [label-sphinx-doc]: https://img.shields.io/badge/Made%20with-Sphinx-blue?style=for-the-badge&logo=Sphinx
@@ -135,4 +150,3 @@ Licensed under the [MIT License][license]
 [pypi-repo]: https://packaging.python.org/tutorials/packaging-projects/
 [license]: https://github.com/thevickypedia/VaultAPI/blob/master/LICENSE
 [runbook]: https://thevickypedia.github.io/VaultAPI/
-[samples]: https://github.com/thevickypedia/VaultAPI/tree/main/samples

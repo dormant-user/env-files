@@ -61,6 +61,23 @@ vaultapi start
 - **DATABASE** - FilePath to store the secrets' database.
 - **RATE_LIMIT** - List of dictionaries with `max_requests` and `seconds` to apply as rate limit.
 
+<details>
+<summary>Auto generate a <code>SECRET</code> value</summary>
+
+This value will be used to encrypt/decrypt the secrets stored in the database.
+
+**CLI**
+```shell
+vaultapi keygen
+```
+
+**IDE**
+```python
+from cryptography.fernet import Fernet
+print(Fernet.generate_key())
+```
+</details>
+
 ## Coding Standards
 Docstring format: [`Google`][google-docs] <br>
 Styling conventions: [`PEP 8`][pep8] and [`isort`][isort]

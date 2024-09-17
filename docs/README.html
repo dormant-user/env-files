@@ -98,7 +98,18 @@
 <li><p><strong>DATABASE</strong> - FilePath to store the secrets’ database.</p></li>
 <li><p><strong>RATE_LIMIT</strong> - List of dictionaries with <code class="docutils literal notranslate"><span class="pre">max_requests</span></code> and <code class="docutils literal notranslate"><span class="pre">seconds</span></code> to apply as rate limit.</p></li>
 </ul>
-</section>
+<details>
+<summary>Auto generate a <code>SECRET</code> value</summary><p>This value will be used to encrypt/decrypt the secrets stored in the database.</p>
+<p><strong>CLI</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>vaultapi<span class="w"> </span>keygen
+</pre></div>
+</div>
+<p><strong>IDE</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryptography.fernet</span> <span class="kn">import</span> <span class="n">Fernet</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Fernet</span><span class="o">.</span><span class="n">generate_key</span><span class="p">())</span>
+</pre></div>
+</div>
+</details></section>
 <section id="coding-standards">
 <h2>Coding Standards<a class="headerlink" href="#coding-standards" title="Permalink to this heading">¶</a></h2>
 <p>Docstring format: <a class="reference external" href="https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings"><code class="docutils literal notranslate"><span class="pre">Google</span></code></a> <br>

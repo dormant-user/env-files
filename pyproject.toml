@@ -1,7 +1,7 @@
 [project]
 name = "VaultAPI"
 dynamic = ["version", "dependencies"]
-description = "API to create and retrieve secrets from an encrypted vault."
+description = "Lightweight API to store/retrieve secrets to/from an encrypted Database"
 readme = "README.md"
 authors = [{ name = "Vignesh Rao", email = "svignesh1793@gmail.com" }]
 license = { file = "LICENSE" }
@@ -9,12 +9,12 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Operating System :: MacOS :: MacOS X",
     "Operating System :: Microsoft :: Windows",
     "Operating System :: POSIX :: Linux"
 ]
-keywords = ["vaultapi", "vault", "fastapi"]
+keywords = ["vaultapi", "vault", "fastapi", "sqlite3", "fernet"]
 requires-python = ">=3.10"
 
 [tool.setuptools]

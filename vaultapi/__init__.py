@@ -19,7 +19,7 @@ from .main import start, version
     help="Environment configuration filepath.",
 )
 def commandline(*args, **kwargs) -> None:
-    """Starter function to invoke vaultapi via CLI commands.
+    """Starter function to invoke VaultAPI via CLI commands.
 
     **Flags**
         - ``--version | -V``: Prints the version.
@@ -41,22 +41,23 @@ def commandline(*args, **kwargs) -> None:
         for k, v in options.items()
     )
     if kwargs.get("version"):
-        click.echo(f"vaultapi {version.__version__}")
+        click.echo(f"VaultAPI {version.__version__}")
         sys.exit(0)
     if kwargs.get("help"):
         click.echo(
             f"\nUsage: vaultapi [arbitrary-command]\nOptions (and corresponding behavior):{choices}"
         )
         sys.exit(0)
-    trigger = kwargs.get("start") or kwargs.get("run") or kwargs.get("keygen") or ""
-    if trigger and trigger.lower() in ("start", "run"):
-        # Click doesn't support assigning defaults like traditional dictionaries, so kwargs.get("max", 100) won't work
+    trigger = (
+        kwargs.get("start") or kwargs.get("run") or kwargs.get("keygen") or ""
+    ).lower()
+    if trigger in ("start", "run"):
         start(env_file=kwargs.get("env"))
         sys.exit(0)
-    elif trigger.lower() == "keygen":
+    elif trigger == "keygen":
         key = Fernet.generate_key()
         click.secho(
-            f"\nStore this as 'secret' or pass it as kwargs\n\n{key.decode()}\n"
+            f"\nStore this as an env var named 'secret' or pass it as kwargs\n\n{key.decode()}\n"
         )
         sys.exit(0)
     else:
