@@ -106,8 +106,6 @@ pre-commit run --all-files
 
 Licensed under the [MIT License][license]
 
-[//]: # (Labels)
-
 [label-actions-markdown]: https://github.com/thevickypedia/VaultAPI/actions/workflows/markdown.yaml/badge.svg
 [label-pypi-package]: https://img.shields.io/badge/Pypi%20Package-VaultAPI-blue?style=for-the-badge&logo=Python
 [label-sphinx-doc]: https://img.shields.io/badge/Made%20with-Sphinx-blue?style=for-the-badge&logo=Sphinx
@@ -135,4 +133,3 @@ Licensed under the [MIT License][license]
 [pypi-repo]: https://packaging.python.org/tutorials/packaging-projects/
 [license]: https://github.com/thevickypedia/VaultAPI/blob/master/LICENSE
 [runbook]: https://thevickypedia.github.io/VaultAPI/
-[samples]: https://github.com/thevickypedia/VaultAPI/tree/main/samples
