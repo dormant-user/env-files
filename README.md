@@ -1,2 +1,2 @@
-# env-files
-API to share env files
+# VaultAPI
+API to store and retrieve secrets

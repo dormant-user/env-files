@@ -5,7 +5,7 @@ import sqlite3
 from typing import Any, Dict, List, Set, Tuple
 
 from cryptography.fernet import Fernet
-from pydantic import BaseModel, Field, FilePath, NewPath, PositiveInt, field_validator
+from pydantic import BaseModel, Field, FilePath, NewPath, PositiveInt, field_validator, HttpUrl
 from pydantic_settings import BaseSettings
 
 
@@ -132,6 +132,7 @@ class EnvConfig(BaseSettings):
     apikey: str
     secret: str
     database: FilePath | NewPath | str = Field("secrets.db", pattern=".*.db$")
+    endpoints: HttpUrl | List[HttpUrl] = []
     host: str = socket.gethostbyname("localhost") or "0.0.0.0"
     port: PositiveInt = 8080
     workers: PositiveInt = 1
@@ -139,18 +140,16 @@ class EnvConfig(BaseSettings):
     allowed_origins: List[str] = []
     rate_limit: RateLimit | List[RateLimit] = []
 
-    # noinspection PyMethodParameters
+    @field_validator("endpoints", mode="after", check_fields=True)
+    def parse_endpoints(cls, value: HttpUrl | List[HttpUrl]) -> List[HttpUrl]:  # noqa: PyMethodParameters
+        """Validate endpoints to enable CORS policy."""
+        if isinstance(value, list):
+            return value
+        return [value]
+
     @field_validator("apikey", mode="after")
-    def parse_apikey(cls, value: str | None) -> str | None:
-        """Parse API key to validate complexity.
-
-        Args:
-            value: Takes the user input as an argument.
-
-        Returns:
-            str:
-            Returns the parsed value.
-        """
+    def parse_apikey(cls, value: str | None) -> str | None:  # noqa: PyMethodParameters
+        """Parse API key to validate complexity."""
         if value:
             try:
                 complexity_checker(value, True)
@@ -158,18 +157,9 @@ class EnvConfig(BaseSettings):
                 raise ValueError(error.__str__())
             return value
 
-    # noinspection PyMethodParameters
     @field_validator("secret", mode="after")
-    def parse_api_secret(cls, value: str | None) -> str | None:
-        """Parse API secret to validate complexity.
-
-        Args:
-            value: Takes the user input as an argument.
-
-        Returns:
-            str:
-            Returns the parsed value.
-        """
+    def parse_api_secret(cls, value: str | None) -> str | None:  # noqa: PyMethodParameters
+        """Parse API secret to validate complexity."""
         if value:
             try:
                 complexity_checker(value)

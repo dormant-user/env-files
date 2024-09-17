@@ -94,7 +94,7 @@ async def get_secret(
 
 async def get_secrets(
     request: Request,
-    keys: List[str],
+    keys: str,
     table_name: str = "default",
     apikey: HTTPAuthorizationCredentials = Depends(security),
 ):
@@ -103,7 +103,7 @@ async def get_secrets(
     **Args:**
 
         request: Reference to the FastAPI request object.
-        key: List of secret names to be retrieved.
+        key: Comma separated list of secret names to be retrieved.
         table_name: Name of the table where the secrets are stored.
         apikey: API Key to authenticate the request.
 
@@ -113,6 +113,8 @@ async def get_secrets(
         Raises the HTTPStatus object with a status code and detail as response.
     """
     await auth.validate(request, apikey)
+    # keys = [key.strip() for key in keys.split(",") if key.strip()]
+    keys = list(filter(None, map(str.strip, keys.split(","))))
     keys_ct = len(keys)
     try:
         assert keys_ct >= 1, f"Expected at least one key, received {keys_ct}"
@@ -141,7 +143,7 @@ async def get_secrets(
         LOGGER.info("Secret value for '%s' NOT found in the datastore", keys[0])
     else:
         LOGGER.info(
-            "Secret values for %d keys (%s) were NOT found in the datastore",
+            "Secret values for %d keys %s were NOT found in the datastore",
             keys_ct,
             keys,
         )
@@ -319,7 +321,7 @@ def get_all_routes() -> List[APIRoute]:
         APIRoute(
             path="/get-secrets",
             endpoint=get_secrets,
-            methods=["POST"],
+            methods=["GET"],
             dependencies=dependencies,
         ),
         APIRoute(
@@ -331,7 +333,7 @@ def get_all_routes() -> List[APIRoute]:
         APIRoute(
             path="/put-secret",
             endpoint=put_secret,
-            methods=["POST"],
+            methods=["PUT"],
             dependencies=dependencies,
         ),
         APIRoute(
