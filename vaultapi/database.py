@@ -1,3 +1,5 @@
+from typing import List, Tuple
+
 from . import models
 
 
@@ -19,6 +21,22 @@ def get_secret(key: str, table_name: str) -> str | None:
         ).fetchone()
     if state and state[0]:
         return state[0]
+
+
+def get_table(table_name: str) -> List[Tuple[str, str]]:
+    """Function to retrieve all key-value pairs from a particular table in the database.
+
+    Args:
+        table_name: Name of the table where the secrets are stored.
+
+    Returns:
+        str:
+        Returns the secret value.
+    """
+    with models.database.connection:
+        cursor = models.database.connection.cursor()
+        state = cursor.execute(f'SELECT * FROM "{table_name}"').fetchall()
+    return state
 
 
 def put_secret(key: str, value: str, table_name: str) -> None:
