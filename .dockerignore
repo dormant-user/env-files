@@ -1,0 +1,6 @@
+*.env
+*.db
+
+docs/
+doc_gen/
+.github/

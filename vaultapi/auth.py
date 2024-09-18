@@ -39,14 +39,14 @@ async def validate(request: Request, apikey: HTTPAuthorizationCredentials) -> No
     else:
         auth = apikey.credentials
     if secrets.compare_digest(auth, models.env.apikey):
-        LOGGER.info(
+        LOGGER.debug(
             "Connection received from client-host: %s, host-header: %s, x-fwd-host: %s",
             request.client.host,
             request.headers.get("host"),
             request.headers.get("x-forwarded-host"),
         )
         if user_agent := request.headers.get("user-agent"):
-            LOGGER.info("User agent: %s", user_agent)
+            LOGGER.debug("User agent: %s", user_agent)
         return
     raise exceptions.APIResponse(
         status_code=HTTPStatus.UNAUTHORIZED.real, detail=HTTPStatus.UNAUTHORIZED.phrase

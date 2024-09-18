@@ -1,0 +1,14 @@
+services:
+  app:
+    image: thevickypedia/VaultAPI
+    container_name: vaultapi
+    build:
+      context: .
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    env_file:
+      - .env
+    ports:
+      # host_port:container_port
+      - "8080:9010"

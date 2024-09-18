@@ -28,6 +28,13 @@ def __init__(**kwargs) -> None:
         models.session.allowed_origins.add(models.env.host)
     for allowed in models.env.allowed_origins:
         models.session.allowed_origins.add(allowed.host)
+    for cidr_range in models.env.allowed_ip_range:
+        LOGGER.info("Adding the IP range: %s to allowed_origins", cidr_range)
+        ip_notion = '.'.join(cidr_range.split('.')[0:-1])
+        start_ip, end_ip = cidr_range.split('.')[-1].split('-')
+        start_ip, end_ip = int(start_ip), int(end_ip) + 1
+        for i in range(start_ip, end_ip):
+            models.session.allowed_origins.add(f"{ip_notion}.{i}")
     LOGGER.info("Allowed origins: %s", models.session.allowed_origins)
 
 

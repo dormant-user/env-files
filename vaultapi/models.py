@@ -118,20 +118,23 @@ class EnvConfig(BaseSettings):
     secret: str
     database: FilePath | NewPath | str = Field("secrets.db", pattern=".*.db$")
     host: str = socket.gethostbyname("localhost") or "0.0.0.0"
-    port: PositiveInt = 8080
+    port: PositiveInt = 9010
     workers: PositiveInt = 1
     log_config: FilePath | Dict[str, Any] | None = None
     allowed_origins: HttpUrl | List[HttpUrl] = []
+    allowed_ip_range: List[str] = []
     # This is a base rate limit configuration
     rate_limit: RateLimit | List[RateLimit] = [
+        # Burst limit: Prevents excessive load on the server
         {
             "max_requests": 5,
             "seconds": 2,
-        },  # Burst limit: Prevents excessive load on the server
+        },
+        # Sustained limit: Prevents too many trial and errors
         {
             "max_requests": 10,
             "seconds": 30,
-        },  # Sustained limit: Prevents too many trial and errors
+        },
     ]
 
     @field_validator("allowed_origins", mode="after", check_fields=True)
@@ -143,15 +146,28 @@ class EnvConfig(BaseSettings):
             return value
         return [value]
 
-    @field_validator("apikey", mode="after")
-    def parse_apikey(cls, value: str | None) -> str | None:  # noqa: PyMethodParameters
-        """Parse API key to validate complexity."""
-        if value:
+    @field_validator("allowed_ip_range", mode="after", check_fields=True)
+    def parse_allowed_ip_range(
+        cls, value: List[str]  # noqa: PyMethodParameters
+    ) -> List[str]:
+        """Validate allowed IP range to whitelist."""
+        for ip_range in value:
             try:
-                complexity_checker(value)
+                assert len(ip_range.split('.')) > 1, f"Expected a valid IP address, received {ip_range}"
+                assert len(ip_range.split('.')[-1].split('-')) == 2, f"Expected a valid IP range, received {ip_range}"
             except AssertionError as error:
-                raise ValueError(error.__str__())
-            return value
+                exc = f"{error}\n\tInput should be a list of IP range (eg: ['192.168.1.10-19', '10.120.1.5-35'])"
+                raise ValueError(exc)
+        return value
+
+    @field_validator("apikey", mode="after")
+    def parse_apikey(cls, value: str) -> str | None:  # noqa: PyMethodParameters
+        """Parse API key to validate complexity."""
+        try:
+            complexity_checker(value)
+        except AssertionError as error:
+            raise ValueError(error.__str__())
+        return value
 
     @field_validator("secret", mode="after")
     def parse_api_secret(cls, value: str) -> str:  # noqa: PyMethodParameters

@@ -1,6 +1,6 @@
+import collections
 import math
 import time
-from collections import defaultdict
 from http import HTTPStatus
 from threading import Lock
 
@@ -36,8 +36,8 @@ class RateLimiter:
         """
         self.max_requests = rps.max_requests
         self.seconds = rps.seconds
-        self.locks = defaultdict(Lock)  # For thread-safe access
-        self.requests = defaultdict(list)
+        self.locks = collections.defaultdict(Lock)  # For thread-safe access
+        self.requests = collections.defaultdict(list)
 
     def init(self, request: Request) -> None:
         """Checks if the number of calls exceeds the rate limit for the given identifier.
