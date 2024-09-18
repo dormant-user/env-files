@@ -1,14 +1,23 @@
 import math
 import time
+from collections import defaultdict
 from http import HTTPStatus
+from threading import Lock
 
 from fastapi import HTTPException, Request
 
 from . import models
 
 
+def _get_identifier(request: Request) -> str:
+    """Generate a unique identifier for the request."""
+    if forwarded := request.headers.get("x-forwarded-for"):
+        return f"{forwarded.split(',')[0]}:{request.url.path}"
+    return f"{request.client.host}:{request.url.path}"
+
+
 class RateLimiter:
-    """Object that implements the ``RateLimiter`` functionality.
+    """Rate limiter for incoming requests.
 
     >>> RateLimiter
 
@@ -27,13 +36,8 @@ class RateLimiter:
         """
         self.max_requests = rps.max_requests
         self.seconds = rps.seconds
-        self.start_time = time.time()
-        self.exception = HTTPException(
-            status_code=HTTPStatus.TOO_MANY_REQUESTS.value,
-            detail=HTTPStatus.TOO_MANY_REQUESTS.phrase,
-            # reset headers, which will invalidate auth token
-            headers={"Retry-After": str(math.ceil(self.seconds))},
-        )
+        self.locks = defaultdict(Lock)  # For thread-safe access
+        self.requests = defaultdict(list)
 
     def init(self, request: Request) -> None:
         """Checks if the number of calls exceeds the rate limit for the given identifier.
@@ -44,23 +48,21 @@ class RateLimiter:
         Raises:
             429: Too many requests.
         """
-        if forwarded := request.headers.get("x-forwarded-for"):
-            identifier = forwarded.split(",")[0]
-        else:
-            identifier = request.client.host
-        identifier += ":" + request.url.path
-
+        identifier = _get_identifier(request)
         current_time = time.time()
 
-        # Reset if the time window has passed
-        if current_time - self.start_time > self.seconds:
-            models.session.rps[identifier] = 1
-            self.start_time = current_time
+        with self.locks[identifier]:
+            # Clean up expired timestamps
+            self.requests[identifier] = [
+                timestamp
+                for timestamp in self.requests[identifier]
+                if current_time - timestamp < self.seconds
+            ]
 
-        if models.session.rps.get(identifier):
-            if models.session.rps[identifier] >= self.max_requests:
-                raise self.exception
-            else:
-                models.session.rps[identifier] += 1
-        else:
-            models.session.rps[identifier] = 1
+            if len(self.requests[identifier]) >= self.max_requests:
+                raise HTTPException(
+                    status_code=HTTPStatus.TOO_MANY_REQUESTS.value,
+                    detail=HTTPStatus.TOO_MANY_REQUESTS.phrase,
+                    headers={"Retry-After": str(math.ceil(self.seconds))},
+                )
+            self.requests[identifier].append(current_time)

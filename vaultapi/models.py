@@ -17,12 +17,8 @@ from pydantic import (
 from pydantic_settings import BaseSettings
 
 
-def complexity_checker(secret: str, simple: bool = False) -> None:
+def complexity_checker(secret: str) -> None:
     """Verifies the strength of a secret.
-
-    Args:
-        secret: Value of the secret.
-        simple: Boolean flag to increase complexity.
 
     See Also:
         A secret is considered strong if it at least has:
@@ -36,18 +32,13 @@ def complexity_checker(secret: str, simple: bool = False) -> None:
     Raises:
         AssertionError: When at least 1 of the above conditions fail to match.
     """
-    char_limit = 8 if simple else 32
-
     # calculates the length
     assert (
-        len(secret) >= char_limit
-    ), f"Minimum secret length is {char_limit}, received {len(secret)}"
+        len(secret) >= 32
+    ), f"secret length must be at least 32, received {len(secret)}"
 
     # searches for digits
     assert re.search(r"\d", secret), "secret must include an integer"
-
-    if simple:
-        return
 
     # searches for uppercase
     assert re.search(
@@ -61,7 +52,7 @@ def complexity_checker(secret: str, simple: bool = False) -> None:
 
     # searches for symbols
     assert re.search(
-        r"[ !#$%&'()*+,-./[\\\]^_`{|}~" + r'"]', secret
+        r"[ !@#$%^&*()_='+,-./[\\\]`{|}~" + r'"]', secret
     ), "secret must contain at least one special character"
 
 
@@ -126,19 +117,28 @@ class EnvConfig(BaseSettings):
     apikey: str
     secret: str
     database: FilePath | NewPath | str = Field("secrets.db", pattern=".*.db$")
-    endpoints: HttpUrl | List[HttpUrl] = []
     host: str = socket.gethostbyname("localhost") or "0.0.0.0"
     port: PositiveInt = 8080
     workers: PositiveInt = 1
     log_config: FilePath | Dict[str, Any] | None = None
-    allowed_origins: List[str] = []
-    rate_limit: RateLimit | List[RateLimit] = []
+    allowed_origins: HttpUrl | List[HttpUrl] = []
+    # This is a base rate limit configuration
+    rate_limit: RateLimit | List[RateLimit] = [
+        {
+            "max_requests": 5,
+            "seconds": 2,
+        },  # Burst limit: Prevents excessive load on the server
+        {
+            "max_requests": 10,
+            "seconds": 30,
+        },  # Sustained limit: Prevents too many trial and errors
+    ]
 
-    @field_validator("endpoints", mode="after", check_fields=True)
-    def parse_endpoints(
+    @field_validator("allowed_origins", mode="after", check_fields=True)
+    def parse_allowed_origins(
         cls, value: HttpUrl | List[HttpUrl]  # noqa: PyMethodParameters
     ) -> List[HttpUrl]:
-        """Validate endpoints to enable CORS policy."""
+        """Validate allowed origins to enable CORS policy."""
         if isinstance(value, list):
             return value
         return [value]
@@ -148,22 +148,20 @@ class EnvConfig(BaseSettings):
         """Parse API key to validate complexity."""
         if value:
             try:
-                complexity_checker(value, True)
+                complexity_checker(value)
             except AssertionError as error:
                 raise ValueError(error.__str__())
             return value
 
     @field_validator("secret", mode="after")
-    def parse_api_secret(
-        cls, value: str | None  # noqa: PyMethodParameters
-    ) -> str | None:
-        """Parse API secret to validate complexity."""
-        if value:
-            try:
-                complexity_checker(value)
-            except AssertionError as error:
-                raise ValueError(error.__str__())
-            return value
+    def parse_api_secret(cls, value: str) -> str:  # noqa: PyMethodParameters
+        """Parse API secret to Fernet compatible."""
+        try:
+            Fernet(value)
+        except ValueError as error:
+            exc = f"{error}\n\tConsider using 'vaultapi keygen' command to generate a valid secret."
+            raise ValueError(exc)
+        return value
 
     @classmethod
     def from_env_file(cls, env_file: pathlib.Path) -> "EnvConfig":

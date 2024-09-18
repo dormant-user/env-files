@@ -25,6 +25,15 @@ async def validate(request: Request, apikey: HTTPAuthorizationCredentials) -> No
         - 401: If authorization is invalid.
         - 403: If host address is forbidden.
     """
+    if request.client.host not in models.session.allowed_origins:
+        LOGGER.info(
+            "Host: %s has been blocked since it is not added to allowed list",
+            request.client.host,
+        )
+        LOGGER.info(models.session.allowed_origins)
+        raise exceptions.APIResponse(
+            status_code=HTTPStatus.FORBIDDEN.real, detail=HTTPStatus.FORBIDDEN.phrase
+        )
     if apikey.credentials.startswith("\\"):
         auth = bytes(apikey.credentials, "utf-8").decode(encoding="unicode_escape")
     else:

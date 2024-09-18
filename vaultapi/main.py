@@ -21,6 +21,14 @@ def __init__(**kwargs) -> None:
     models.env = squire.load_env(**kwargs)
     models.session.fernet = Fernet(models.env.secret)
     models.database = models.Database(models.env.database)
+    default_allowed = ("0.0.0.0", "127.0.0.1", "localhost")
+    if models.env.host in default_allowed:
+        models.session.allowed_origins.update(default_allowed)
+    else:
+        models.session.allowed_origins.add(models.env.host)
+    for allowed in models.env.allowed_origins:
+        models.session.allowed_origins.add(allowed.host)
+    LOGGER.info("Allowed origins: %s", models.session.allowed_origins)
 
 
 def enable_cors() -> None:
@@ -30,7 +38,7 @@ def enable_cors() -> None:
         "http://localhost.com",
         "https://localhost.com",
     ]
-    for website in models.env.endpoints:
+    for website in models.env.allowed_origins:
         origins.append(f"http://{website.host}")  # noqa: HttpUrlsUsage
         origins.append(f"https://{website.host}")
     VaultAPI.add_middleware(
