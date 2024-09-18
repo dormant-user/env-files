@@ -10,7 +10,6 @@ on:
 
 env:
   DOCKER_REGISTRY: "https://hub.docker.com/v2"
-  DOCKER_REPOSITORY: "${{ github.event.repository.name }}"
   DESCRIPTION_LIMIT: 100
 
 jobs:
@@ -18,6 +17,12 @@ jobs:
     runs-on: thevickypedia-lite
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set Repository
+        run: |
+          docker_repository=$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')
+          echo "DOCKER_REPOSITORY=${{ secrets.DOCKER_USERNAME }}/${docker_repository}" >> $GITHUB_ENV
+        shell: bash
 
       - name: Fetch API Token
         run: |
@@ -62,7 +67,7 @@ jobs:
             '{description: $description, full_description: $full_description}')
 
           response=$(curl -s -o /tmp/desc -w "%{http_code}" -X PATCH \
-            "${{ env.DOCKER_REGISTRY }}/repositories/${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_REPOSITORY }}/" \
+            "${{ env.DOCKER_REGISTRY }}/repositories/${{ env.DOCKER_REPOSITORY }}/" \
             -H "Authorization: Bearer ${{ env.API_TOKEN }}" \
             -H "Content-Type: application/json" \
             -d "$payload")

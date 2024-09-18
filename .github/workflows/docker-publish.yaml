@@ -1,5 +1,5 @@
 ---
-name: Build and Publish
+name: Build and Publish (Docker)
 
 on:
   release:
@@ -12,6 +12,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Set Repository
+        run: |
+          docker_repository=$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')
+          echo "DOCKER_REPOSITORY=${{ secrets.DOCKER_USERNAME }}/${docker_repository}" >> $GITHUB_ENV
+        shell: bash
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -27,4 +32,5 @@ jobs:
           context: .
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: ${{ github.repository }}:${{ github.event.release.tag_name }},${{ github.repository }}:latest
+          tags: |
+            ${{ env.DOCKER_REPOSITORY }}:${{ github.event.release.tag_name }},${{ env.DOCKER_REPOSITORY }}:latest
