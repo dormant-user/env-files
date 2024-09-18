@@ -6,12 +6,16 @@ Lightweight API to store/retrieve secrets to/from an encrypted Database
 **Platform Supported**
 
 ![Platform][label-platform]
+![docker-image][image-size]
 
 **Deployments**
 
-[![pages][label-actions-pages]][gha_pages]
+[![docker][label-docker-build]][gha_docker]
 [![pypi][label-actions-pypi]][gha_pypi]
+[![docker_desc][label-docker-desc]][gha_docker_desc]
+
 [![markdown][label-actions-markdown]][gha_md_valid]
+[![pages][label-actions-pages]][gha_pages]
 
 [![Pypi][label-pypi]][pypi]
 [![Pypi-format][label-pypi-format]][pypi-files]
@@ -112,6 +116,11 @@ pre-commit run --all-files
 
 [https://pypi.org/project/VaultAPI/][pypi]
 
+## Docker Image
+[![made-with-docker-doc][label-docker-doc]][docker-doc]
+
+[https://hub.docker.com/r/thevickypedia/vaultapi][docker]
+
 ## Runbook
 [![made-with-sphinx-doc][label-sphinx-doc]][sphinx]
 
@@ -124,8 +133,11 @@ pre-commit run --all-files
 Licensed under the [MIT License][license]
 
 [label-actions-markdown]: https://github.com/thevickypedia/VaultAPI/actions/workflows/markdown.yaml/badge.svg
+[label-docker-build]: https://github.com/thevickypedia/VaultAPI/actions/workflows/docker-publish.yaml/badge.svg
+[label-docker-desc]: https://github.com/thevickypedia/VaultAPI/actions/workflows/docker-description.yaml/badge.svg
 [label-pypi-package]: https://img.shields.io/badge/Pypi%20Package-VaultAPI-blue?style=for-the-badge&logo=Python
 [label-sphinx-doc]: https://img.shields.io/badge/Made%20with-Sphinx-blue?style=for-the-badge&logo=Sphinx
+[label-docker-doc]: https://img.shields.io/badge/Made%20with-Docker-blue?style=for-the-badge&logo=Docker
 [label-pyversion]: https://img.shields.io/badge/python-3.10%20%7C%203.11-blue
 [label-platform]: https://img.shields.io/badge/Platform-Linux|macOS|Windows-1f425f.svg
 [label-actions-pages]: https://github.com/thevickypedia/VaultAPI/actions/workflows/pages/pages-build-deployment/badge.svg
@@ -139,12 +151,17 @@ Licensed under the [MIT License][license]
 [virtual environment]: https://docs.python.org/3/tutorial/venv.html
 [release-notes]: https://github.com/thevickypedia/VaultAPI/blob/master/release_notes.rst
 [gha_pages]: https://github.com/thevickypedia/VaultAPI/actions/workflows/pages/pages-build-deployment
+[gha_docker]: https://github.com/thevickypedia/VaultAPI/actions/workflows/docker-publish.yaml
+[gha_docker_desc]: https://github.com/thevickypedia/VaultAPI/actions/workflows/docker-description.yaml
 [gha_pypi]: https://github.com/thevickypedia/VaultAPI/actions/workflows/python-publish.yaml
 [gha_md_valid]: https://github.com/thevickypedia/VaultAPI/actions/workflows/markdown.yaml
 [google-docs]: https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings
 [pep8]: https://www.python.org/dev/peps/pep-0008/
 [isort]: https://pycqa.github.io/isort/
+[docker]: https://hub.docker.com/r/thevickypedia/vaultapi
+[docker-doc]: https://docs.docker.com/
 [sphinx]: https://www.sphinx-doc.org/en/master/man/sphinx-autogen.html
+[image-size]: https://img.shields.io/docker/image-size/thevickypedia/vaultapi/latest
 [pypi]: https://pypi.org/project/VaultAPI
 [pypi-files]: https://pypi.org/project/VaultAPI/#files
 [pypi-repo]: https://packaging.python.org/tutorials/packaging-projects/

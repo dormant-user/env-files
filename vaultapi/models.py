@@ -153,8 +153,12 @@ class EnvConfig(BaseSettings):
         """Validate allowed IP range to whitelist."""
         for ip_range in value:
             try:
-                assert len(ip_range.split('.')) > 1, f"Expected a valid IP address, received {ip_range}"
-                assert len(ip_range.split('.')[-1].split('-')) == 2, f"Expected a valid IP range, received {ip_range}"
+                assert (
+                    len(ip_range.split(".")) > 1
+                ), f"Expected a valid IP address, received {ip_range}"
+                assert (
+                    len(ip_range.split(".")[-1].split("-")) == 2
+                ), f"Expected a valid IP range, received {ip_range}"
             except AssertionError as error:
                 exc = f"{error}\n\tInput should be a list of IP range (eg: ['192.168.1.10-19', '10.120.1.5-35'])"
                 raise ValueError(exc)

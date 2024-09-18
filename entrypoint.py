@@ -60,8 +60,5 @@ log_config = {
     },
 }
 
-if __name__ == '__main__':
-    vaultapi.start(
-        log_config=log_config,
-        database=db_path
-    )
+if __name__ == "__main__":
+    vaultapi.start(log_config=log_config, database=db_path)

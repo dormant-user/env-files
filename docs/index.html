@@ -55,6 +55,7 @@
 <li class="toctree-l2"><a class="reference internal" href="README.html#release-notes">Release Notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#linting">Linting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#pypi-package">Pypi Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#docker-image">Docker Image</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#runbook">Runbook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#license-copyright">License &amp; copyright</a></li>
 </ul>
@@ -349,6 +350,11 @@
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="vaultapi.models.EnvConfig.allowed_ip_range">
+<span class="sig-name descname"><span class="pre">allowed_ip_range</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#vaultapi.models.EnvConfig.allowed_ip_range" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="vaultapi.models.EnvConfig.rate_limit">
 <span class="sig-name descname"><span class="pre">rate_limit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#vaultapi.models.RateLimit" title="vaultapi.models.RateLimit"><span class="pre">RateLimit</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#vaultapi.models.RateLimit" title="vaultapi.models.RateLimit"><span class="pre">RateLimit</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#vaultapi.models.EnvConfig.rate_limit" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -360,8 +366,14 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="vaultapi.models.EnvConfig.parse_allowed_ip_range">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_allowed_ip_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#vaultapi.models.EnvConfig.parse_allowed_ip_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate allowed IP range to whitelist.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="vaultapi.models.EnvConfig.parse_apikey">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_apikey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#vaultapi.models.EnvConfig.parse_apikey" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_apikey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#vaultapi.models.EnvConfig.parse_apikey" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse API key to validate complexity.</p>
 </dd></dl>
 
