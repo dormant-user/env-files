@@ -97,7 +97,6 @@ class Session(BaseModel):
     """
 
     fernet: Fernet | None = None
-    aes_key: ByteString | None = None
     info: Dict[str, str] = {}
     rps: Dict[str, int] = {}
     allowed_origins: Set[str] = set()

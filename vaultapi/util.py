@@ -1,3 +1,4 @@
+import time
 import base64
 import hashlib
 import importlib
@@ -73,7 +74,8 @@ def transit_decrypt(
         Dict[str, Any]:
         Returns the decrypted payload.
     """
-    hash_object = hashlib.sha256(apikey.encode())
+    epoch = int(time.time()) // 60
+    hash_object = hashlib.sha256(f"{epoch}.{apikey}".encode())
     aes_key = hash_object.digest()[:key_length]
     if isinstance(ciphertext, str):
         ciphertext = base64.b64decode(ciphertext)

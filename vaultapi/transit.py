@@ -7,6 +7,7 @@ import base64
 import hashlib
 import json
 import secrets
+import time
 from typing import Any, ByteString, Dict
 
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
@@ -48,9 +49,9 @@ def encrypt(payload: Dict[str, Any], url_safe: bool = True) -> ByteString | str:
     """
     nonce = secrets.token_bytes(12)
     encoded = json.dumps(payload).encode()
-    # todo: instead of loading aes_key in memory,
-    #  generate it on-demand and append a UTC time value that remains constant for at least 60s (probably env var)
-    ciphertext = nonce + AESGCM(models.session.aes_key).encrypt(nonce, encoded, b"")
+    epoch = int(time.time()) // 60
+    aes_key = string_to_aes_key(f"{epoch}.{models.env.apikey}", models.env.transit_key_length)
+    ciphertext = nonce + AESGCM(aes_key).encrypt(nonce, encoded, b"")
     if url_safe:
         return base64.b64encode(ciphertext).decode("utf-8")
     return ciphertext
@@ -68,7 +69,9 @@ def decrypt(ciphertext: ByteString | str) -> Dict[str, Any]:
     """
     if isinstance(ciphertext, str):
         ciphertext = base64.b64decode(ciphertext)
-    decrypted = AESGCM(models.session.aes_key).decrypt(
+    epoch = int(time.time()) // 60
+    aes_key = string_to_aes_key(f"{epoch}.{models.env.apikey}", models.env.transit_key_length)
+    decrypted = AESGCM(aes_key).decrypt(
         ciphertext[:12], ciphertext[12:], b""
     )
     return json.loads(decrypted)
