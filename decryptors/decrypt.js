@@ -3,11 +3,22 @@ const axios = require('axios');
 
 const APIKEY = process.env.APIKEY;
 
-async function transitDecrypt(ciphertext, keyLength = 32) {
-    const epoch = Math.floor(Date.now() / 60000);
+const getEnvAsInt = (key, defaultValue) => {
+    const value = process.env[key];
+    return value !== undefined ? parseInt(value, 10) : defaultValue;
+};
+
+const TRANSIT_TIME_BUCKET = getEnvAsInt("TRANSIT_TIME_BUCKET", 60);
+const TRANSIT_KEY_LENGTH = getEnvAsInt("TRANSIT_KEY_LENGTH", 60);
+const HOST = process.env.HOST || "0.0.0.0";
+const PORT = getEnvAsInt("PORT", 8080);
+
+
+async function transitDecrypt(ciphertext) {
+    const epoch = Math.floor(Date.now() / (1000 * TRANSIT_TIME_BUCKET));
     const hash = crypto.createHash('sha256');
     hash.update(`${epoch}.${APIKEY}`);
-    const aesKey = hash.digest().slice(0, keyLength);
+    const aesKey = hash.digest().slice(0, TRANSIT_KEY_LENGTH);
 
     const bufferCiphertext = Buffer.from(ciphertext, 'base64');
     if (bufferCiphertext.length < 12 + 16) {
@@ -39,7 +50,7 @@ async function getCipher() {
     const params = {
         table_name: 'default',
     };
-    const response = await axios.get('http://0.0.0.0:8080/get-table', {params, headers});
+    const response = await axios.get(`http://${HOST}:${PORT}/get-table`, {params, headers});  // noqa: HttpUrlsUsage
     if (response.status !== 200) {
         throw new Error(response.data);
     }

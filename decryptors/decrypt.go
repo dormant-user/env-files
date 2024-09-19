@@ -10,15 +10,39 @@ import (
 	"net/http"
 	"os"
 	"time"
+	"strconv"
 )
 
 var apiKey = os.Getenv("APIKEY")
 
-func transitDecrypt(ciphertext string, keyLength int) (map[string]interface{}, error) {
-	epoch := time.Now().Unix() / 60
+func getEnvInt(key string, defaultValue int64) int64 {
+    if value, exists := os.LookupEnv(key); exists {
+        if intValue, err := strconv.ParseInt(value, 10, 64); err == nil {
+            return intValue
+        }
+    }
+    return defaultValue
+}
+
+func getEnvString(key, defaultValue string) string {
+    if value, exists := os.LookupEnv(key); exists {
+        return value
+    }
+    return defaultValue
+}
+
+var (
+    TRANSIT_TIME_BUCKET = getEnvInt("TRANSIT_TIME_BUCKET", 60)
+    TRANSIT_KEY_LENGTH  = getEnvInt("TRANSIT_KEY_LENGTH", 32)
+    HOST                = getEnvString("HOST", "0.0.0.0")
+    PORT                = getEnvInt("PORT", 8080)
+)
+
+func transitDecrypt(ciphertext string) (map[string]interface{}, error) {
+	epoch := time.Now().Unix() / TRANSIT_TIME_BUCKET
 	hash := sha256.New()
 	hash.Write([]byte(fmt.Sprintf("%d.%s", epoch, apiKey)))
-	aesKey := hash.Sum(nil)[:keyLength]
+	aesKey := hash.Sum(nil)[:TRANSIT_KEY_LENGTH]
 
 	cipherBytes, err := base64.StdEncoding.DecodeString(ciphertext)
 	if err != nil {
@@ -53,7 +77,8 @@ func transitDecrypt(ciphertext string, keyLength int) (map[string]interface{}, e
 }
 
 func getCipher() (string, error) {
-	req, err := http.NewRequest("GET", "http://0.0.0.0:8080/get-table", nil)
+    var url = fmt.Sprintf("http://%s:%d/get-table", HOST, PORT)
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return "", err
 	}
@@ -92,11 +117,11 @@ func main() {
 		return
 	}
 
-	decryptedData, err := transitDecrypt(ciphertext, 32)
+	decryptedData, err := transitDecrypt(ciphertext)
 	if err != nil {
 		fmt.Println("Error decrypting:", err)
 		return
 	}
 
-	fmt.Println("Decrypted data:", decryptedData)
+	fmt.Println(decryptedData)
 }

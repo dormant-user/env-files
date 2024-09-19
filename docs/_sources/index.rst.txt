@@ -76,8 +76,8 @@ Squire
 
 .. automodule:: vaultapi.squire
 
-Transmitter
-===========
+Transit
+=======
 
 .. automodule:: vaultapi.transit
 

@@ -1,10 +1,10 @@
-import time
 import base64
 import hashlib
 import importlib
 import json
 import logging
 import sqlite3
+import time
 from typing import Any, ByteString, Dict
 
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
@@ -60,23 +60,19 @@ def dotenv_to_table(
     LOGGER.info("%d secrets have been stored to the database.", len(env_vars))
 
 
-def transit_decrypt(
-    apikey: str, ciphertext: str | ByteString, key_length: int = 32
-) -> Dict[str, Any]:
+def transit_decrypt(ciphertext: str | ByteString) -> Dict[str, Any]:
     """Decrypts the ciphertext into an appropriate payload.
 
     Args:
-        apikey: API key that was used to encrypt the payload.
         ciphertext: Encrypted ciphertext.
-        key_length: AES key size used during encryption.
 
     Returns:
         Dict[str, Any]:
         Returns the decrypted payload.
     """
-    epoch = int(time.time()) // 60
-    hash_object = hashlib.sha256(f"{epoch}.{apikey}".encode())
-    aes_key = hash_object.digest()[:key_length]
+    epoch = int(time.time()) // models.env.transit_time_bucket
+    hash_object = hashlib.sha256(f"{epoch}.{models.env.apikey}".encode())
+    aes_key = hash_object.digest()[: models.env.transit_key_length]
     if isinstance(ciphertext, str):
         ciphertext = base64.b64decode(ciphertext)
     decrypted = AESGCM(aes_key).decrypt(ciphertext[:12], ciphertext[12:], b"")

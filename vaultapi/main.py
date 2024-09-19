@@ -6,7 +6,7 @@ from cryptography.fernet import Fernet
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from . import database, models, routes, squire, transit, version
+from . import database, models, routes, squire, version
 
 LOGGER = logging.getLogger("uvicorn.default")
 VaultAPI = FastAPI(

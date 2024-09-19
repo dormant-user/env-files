@@ -2,7 +2,7 @@ import pathlib
 import re
 import socket
 import sqlite3
-from typing import Any, ByteString, Dict, List, Set
+from typing import Any, Dict, List, Set
 
 from cryptography.fernet import Fernet
 from pydantic import (
@@ -117,6 +117,7 @@ class EnvConfig(BaseSettings):
     apikey: str
     secret: str
     transit_key_length: PositiveInt = 32
+    transit_time_bucket: PositiveInt = 60
     database: FilePath | NewPath | str = Field("secrets.db", pattern=".*.db$")
     host: str = socket.gethostbyname("localhost") or "0.0.0.0"
     port: PositiveInt = 9010

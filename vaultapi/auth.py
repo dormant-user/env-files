@@ -1,6 +1,5 @@
 import logging
 import secrets
-import time
 from http import HTTPStatus
 
 from fastapi import Request
@@ -9,7 +8,6 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from . import exceptions, models
 
 LOGGER = logging.getLogger("uvicorn.default")
-EPOCH = lambda: int(time.time())  # noqa: E731
 SECURITY = HTTPBearer()
 
 

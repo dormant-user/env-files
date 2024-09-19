@@ -96,11 +96,6 @@
 <section id="module-vaultapi.auth">
 <span id="authenticator"></span><h1>Authenticator<a class="headerlink" href="#module-vaultapi.auth" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="vaultapi.auth.EPOCH">
-<span class="sig-prename descclassname"><span class="pre">vaultapi.auth.</span></span><span class="sig-name descname"><span class="pre">EPOCH</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#vaultapi.auth.EPOCH" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="vaultapi.auth.validate">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">vaultapi.auth.</span></span><span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apikey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">HTTPAuthorizationCredentials</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#vaultapi.auth.validate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Validates the auth request using HTTPBearer.</p>
@@ -274,11 +269,6 @@
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="vaultapi.models.Session.aes_key">
-<span class="sig-name descname"><span class="pre">aes_key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ByteString</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#vaultapi.models.Session.aes_key" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="vaultapi.models.Session.info">
 <span class="sig-name descname"><span class="pre">info</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#vaultapi.models.Session.info" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -327,6 +317,11 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="vaultapi.models.EnvConfig.transit_key_length">
 <span class="sig-name descname"><span class="pre">transit_key_length</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#vaultapi.models.EnvConfig.transit_key_length" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vaultapi.models.EnvConfig.transit_time_bucket">
+<span class="sig-name descname"><span class="pre">transit_time_bucket</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#vaultapi.models.EnvConfig.transit_time_bucket" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -810,7 +805,7 @@ Raises the HTTPStatus object with a status code and detail as response.</p>
 
 </section>
 <section id="module-vaultapi.transit">
-<span id="transmitter"></span><h1>Transmitter<a class="headerlink" href="#module-vaultapi.transit" title="Permalink to this heading">¶</a></h1>
+<span id="transit"></span><h1>Transit<a class="headerlink" href="#module-vaultapi.transit" title="Permalink to this heading">¶</a></h1>
 <p>Module that performs transit encryption/decryption.</p>
 <p>This allows the server to securely transmit the retrieved secret to be decrypted at the client side using the API key.</p>
 <dl class="py function">
@@ -903,15 +898,11 @@ Raises the HTTPStatus object with a status code and detail as response.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="vaultapi.util.transit_decrypt">
-<span class="sig-prename descclassname"><span class="pre">vaultapi.util.</span></span><span class="sig-name descname"><span class="pre">transit_decrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">apikey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ByteString</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">32</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#vaultapi.util.transit_decrypt" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">vaultapi.util.</span></span><span class="sig-name descname"><span class="pre">transit_decrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ByteString</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#vaultapi.util.transit_decrypt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decrypts the ciphertext into an appropriate payload.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>apikey</strong> – API key that was used to encrypt the payload.</p></li>
-<li><p><strong>ciphertext</strong> – Encrypted ciphertext.</p></li>
-<li><p><strong>key_length</strong> – AES key size used during encryption.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>ciphertext</strong> – Encrypted ciphertext.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Returns the decrypted payload.</p>
@@ -952,7 +943,7 @@ Raises the HTTPStatus object with a status code and detail as response.</p>
 <li><a class="reference internal" href="#module-vaultapi.rate_limit">RateLimit</a></li>
 <li><a class="reference internal" href="#module-vaultapi.routes">API Routes</a></li>
 <li><a class="reference internal" href="#module-vaultapi.squire">Squire</a></li>
-<li><a class="reference internal" href="#module-vaultapi.transit">Transmitter</a></li>
+<li><a class="reference internal" href="#module-vaultapi.transit">Transit</a></li>
 <li><a class="reference internal" href="#module-vaultapi.util">Util</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>

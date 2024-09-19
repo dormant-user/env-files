@@ -63,6 +63,7 @@ vaultapi start
 
 **Optional (with defaults)**
 - **TRANSIT_KEY_LENGTH** - AES key length for transit encryption. Defaults to `32`
+- **TRANSIT_TIME_BUCKET** - Interval for which the transit epoch should remain constant. Defaults to `60`
 - **DATABASE** - FilePath to store the secrets' database. Defaults to `secrets.db`
 - **HOST** - Hostname for the API server. Defaults to `0.0.0.0` [OR] `localhost`
 - **PORT** - Port number for the API server. Defaults to `9010`
@@ -74,6 +75,8 @@ Defaults to 5req/2s [AND] 10req/30s
 - **LOG_CONFIG** - FilePath or dictionary of key-value pairs for log config.
 - **ALLOWED_ORIGINS** - Origins that are allowed to retrieve secrets.
 - **ALLOWED_IP_RANGE** - IP range that is allowed to retrieve secrets. _(eg: `10.112.8.10-210`)_
+
+> Checkout [decryptors][decryptors] for more information about decrypting the retrieved secret from the server.
 
 <details>
 <summary>Auto generate a <code>SECRET</code> value</summary>
@@ -159,7 +162,8 @@ Licensed under the [MIT License][license]
 [3.10]: https://docs.python.org/3/whatsnew/3.10.html
 [3.11]: https://docs.python.org/3/whatsnew/3.11.html
 [virtual environment]: https://docs.python.org/3/tutorial/venv.html
-[release-notes]: https://github.com/thevickypedia/VaultAPI/blob/master/release_notes.rst
+[release-notes]: https://github.com/thevickypedia/VaultAPI/blob/main/release_notes.rst
+[decryptors]: https://github.com/thevickypedia/VaultAPI/blob/main/decryptors
 [gha_pages]: https://github.com/thevickypedia/VaultAPI/actions/workflows/pages/pages-build-deployment
 [gha_docker]: https://github.com/thevickypedia/VaultAPI/actions/workflows/docker-publish.yaml
 [gha_docker_desc]: https://github.com/thevickypedia/VaultAPI/actions/workflows/docker-description.yaml
@@ -175,5 +179,5 @@ Licensed under the [MIT License][license]
 [pypi]: https://pypi.org/project/VaultAPI
 [pypi-files]: https://pypi.org/project/VaultAPI/#files
 [pypi-repo]: https://packaging.python.org/tutorials/packaging-projects/
-[license]: https://github.com/thevickypedia/VaultAPI/blob/master/LICENSE
+[license]: https://github.com/thevickypedia/VaultAPI/blob/main/LICENSE
 [runbook]: https://thevickypedia.github.io/VaultAPI/
