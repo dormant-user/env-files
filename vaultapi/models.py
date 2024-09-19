@@ -2,7 +2,7 @@ import pathlib
 import re
 import socket
 import sqlite3
-from typing import Any, Dict, List, Set
+from typing import Any, ByteString, Dict, List, Set
 
 from cryptography.fernet import Fernet
 from pydantic import (
@@ -97,6 +97,7 @@ class Session(BaseModel):
     """
 
     fernet: Fernet | None = None
+    aes_key: ByteString | None = None
     info: Dict[str, str] = {}
     rps: Dict[str, int] = {}
     allowed_origins: Set[str] = set()
@@ -116,6 +117,7 @@ class EnvConfig(BaseSettings):
 
     apikey: str
     secret: str
+    transit_key_length: PositiveInt = 32
     database: FilePath | NewPath | str = Field("secrets.db", pattern=".*.db$")
     host: str = socket.gethostbyname("localhost") or "0.0.0.0"
     port: PositiveInt = 9010
@@ -138,7 +140,7 @@ class EnvConfig(BaseSettings):
     ]
 
     @field_validator("allowed_origins", mode="after", check_fields=True)
-    def parse_allowed_origins(
+    def validate_allowed_origins(
         cls, value: HttpUrl | List[HttpUrl]  # noqa: PyMethodParameters
     ) -> List[HttpUrl]:
         """Validate allowed origins to enable CORS policy."""
@@ -147,7 +149,7 @@ class EnvConfig(BaseSettings):
         return [value]
 
     @field_validator("allowed_ip_range", mode="after", check_fields=True)
-    def parse_allowed_ip_range(
+    def validate_allowed_ip_range(
         cls, value: List[str]  # noqa: PyMethodParameters
     ) -> List[str]:
         """Validate allowed IP range to whitelist."""
@@ -165,8 +167,8 @@ class EnvConfig(BaseSettings):
         return value
 
     @field_validator("apikey", mode="after")
-    def parse_apikey(cls, value: str) -> str | None:  # noqa: PyMethodParameters
-        """Parse API key to validate complexity."""
+    def validate_apikey(cls, value: str) -> str | None:  # noqa: PyMethodParameters
+        """Validate API key for complexity."""
         try:
             complexity_checker(value)
         except AssertionError as error:
@@ -174,8 +176,8 @@ class EnvConfig(BaseSettings):
         return value
 
     @field_validator("secret", mode="after")
-    def parse_api_secret(cls, value: str) -> str:  # noqa: PyMethodParameters
-        """Parse API secret to Fernet compatible."""
+    def validate_api_secret(cls, value: str) -> str:  # noqa: PyMethodParameters
+        """Validate API secret to Fernet compatible."""
         try:
             Fernet(value)
         except ValueError as error:

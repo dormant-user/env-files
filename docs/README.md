@@ -57,13 +57,23 @@ vaultapi start
 > _By default, `VaultAPI` will look for a `.env` file in the current working directory._
 </details>
 
-- **HOST** - Hostname for the API server.
-- **PORT** - Port number for the API server.
-- **WORKERS** - Number of workers for the uvicorn server.
+**Mandatory**
 - **APIKEY** - API Key for authentication.
 - **SECRET** - Secret access key to encode/decode the secrets in Datastore.
-- **DATABASE** - FilePath to store the secrets' database.
+
+**Optional (with defaults)**
+- **TRANSIT_KEY_LENGTH** - AES key length for transit encryption. Defaults to `32`
+- **DATABASE** - FilePath to store the secrets' database. Defaults to `secrets.db`
+- **HOST** - Hostname for the API server. Defaults to `0.0.0.0` [OR] `localhost`
+- **PORT** - Port number for the API server. Defaults to `9010`
+- **WORKERS** - Number of workers for the uvicorn server. Defaults to `1`
 - **RATE_LIMIT** - List of dictionaries with `max_requests` and `seconds` to apply as rate limit.
+Defaults to 5req/2s [AND] 10req/30s
+
+**Optional (without defaults)**
+- **LOG_CONFIG** - FilePath or dictionary of key-value pairs for log config.
+- **ALLOWED_ORIGINS** - Origins that are allowed to retrieve secrets.
+- **ALLOWED_IP_RANGE** - IP range that is allowed to retrieve secrets. _(eg: `10.112.8.10-210`)_
 
 <details>
 <summary>Auto generate a <code>SECRET</code> value</summary>

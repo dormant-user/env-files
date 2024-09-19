@@ -8,7 +8,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.routing import APIRoute
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
-from . import auth, database, exceptions, models, payload, rate_limit
+from . import auth, database, exceptions, models, payload, rate_limit, transit
 
 LOGGER = logging.getLogger("uvicorn.default")
 security = HTTPBearer()
@@ -85,7 +85,9 @@ async def get_secret(
     if value := await retrieve_secret(key, table_name):
         LOGGER.info("Secret value for '%s' was retrieved", key)
         decrypted = models.session.fernet.decrypt(value).decode(encoding="UTF-8")
-        raise exceptions.APIResponse(status_code=HTTPStatus.OK.real, detail=decrypted)
+        raise exceptions.APIResponse(
+            status_code=HTTPStatus.OK.real, detail=transit.encrypt({key: decrypted})
+        )
     LOGGER.info("Secret value for '%s' NOT found in the datastore", key)
     raise exceptions.APIResponse(
         status_code=HTTPStatus.NOT_FOUND.real, detail=HTTPStatus.NOT_FOUND.phrase
@@ -138,7 +140,9 @@ async def get_secrets(
             key: models.session.fernet.decrypt(value).decode(encoding="UTF-8")
             for key, value in values.items()
         }
-        raise exceptions.APIResponse(status_code=code, detail=decrypted)
+        raise exceptions.APIResponse(
+            status_code=code, detail=transit.encrypt(decrypted)
+        )
     if keys_ct == 1:
         LOGGER.info("Secret value for '%s' NOT found in the datastore", keys[0])
     else:
@@ -176,7 +180,9 @@ async def get_table(
         key: models.session.fernet.decrypt(value).decode(encoding="UTF-8")
         for key, value in table_content.items()
     }
-    raise exceptions.APIResponse(status_code=HTTPStatus.OK.real, detail=decrypted)
+    raise exceptions.APIResponse(
+        status_code=HTTPStatus.OK.real, detail=transit.encrypt(decrypted)
+    )
 
 
 async def put_secret(

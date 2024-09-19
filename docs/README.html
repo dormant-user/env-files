@@ -92,14 +92,26 @@
 <summary><strong>Sourcing environment variables from an env file</strong></summary><blockquote>
 <div><p><em>By default, <code class="docutils literal notranslate"><span class="pre">VaultAPI</span></code> will look for a <code class="docutils literal notranslate"><span class="pre">.env</span></code> file in the current working directory.</em></p>
 </div></blockquote>
-</details><ul class="simple">
-<li><p><strong>HOST</strong> - Hostname for the API server.</p></li>
-<li><p><strong>PORT</strong> - Port number for the API server.</p></li>
-<li><p><strong>WORKERS</strong> - Number of workers for the uvicorn server.</p></li>
+</details><p><strong>Mandatory</strong></p>
+<ul class="simple">
 <li><p><strong>APIKEY</strong> - API Key for authentication.</p></li>
 <li><p><strong>SECRET</strong> - Secret access key to encode/decode the secrets in Datastore.</p></li>
-<li><p><strong>DATABASE</strong> - FilePath to store the secrets’ database.</p></li>
-<li><p><strong>RATE_LIMIT</strong> - List of dictionaries with <code class="docutils literal notranslate"><span class="pre">max_requests</span></code> and <code class="docutils literal notranslate"><span class="pre">seconds</span></code> to apply as rate limit.</p></li>
+</ul>
+<p><strong>Optional (with defaults)</strong></p>
+<ul class="simple">
+<li><p><strong>TRANSIT_KEY_LENGTH</strong> - AES key length for transit encryption. Defaults to <code class="docutils literal notranslate"><span class="pre">32</span></code></p></li>
+<li><p><strong>DATABASE</strong> - FilePath to store the secrets’ database. Defaults to <code class="docutils literal notranslate"><span class="pre">secrets.db</span></code></p></li>
+<li><p><strong>HOST</strong> - Hostname for the API server. Defaults to <code class="docutils literal notranslate"><span class="pre">0.0.0.0</span></code> [OR] <code class="docutils literal notranslate"><span class="pre">localhost</span></code></p></li>
+<li><p><strong>PORT</strong> - Port number for the API server. Defaults to <code class="docutils literal notranslate"><span class="pre">9010</span></code></p></li>
+<li><p><strong>WORKERS</strong> - Number of workers for the uvicorn server. Defaults to <code class="docutils literal notranslate"><span class="pre">1</span></code></p></li>
+<li><p><strong>RATE_LIMIT</strong> - List of dictionaries with <code class="docutils literal notranslate"><span class="pre">max_requests</span></code> and <code class="docutils literal notranslate"><span class="pre">seconds</span></code> to apply as rate limit.
+Defaults to 5req/2s [AND] 10req/30s</p></li>
+</ul>
+<p><strong>Optional (without defaults)</strong></p>
+<ul class="simple">
+<li><p><strong>LOG_CONFIG</strong> - FilePath or dictionary of key-value pairs for log config.</p></li>
+<li><p><strong>ALLOWED_ORIGINS</strong> - Origins that are allowed to retrieve secrets.</p></li>
+<li><p><strong>ALLOWED_IP_RANGE</strong> - IP range that is allowed to retrieve secrets. <em>(eg: <code class="docutils literal notranslate"><span class="pre">10.112.8.10-210</span></code>)</em></p></li>
 </ul>
 <details>
 <summary>Auto generate a <code>SECRET</code> value</summary><p>This value will be used to encrypt/decrypt the secrets stored in the database.</p>

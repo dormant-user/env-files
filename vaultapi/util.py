@@ -1,7 +1,12 @@
+import base64
+import hashlib
 import importlib
+import json
 import logging
 import sqlite3
+from typing import Any, ByteString, Dict
 
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from dotenv import dotenv_values
 
 from . import database, main, models
@@ -52,3 +57,25 @@ def dotenv_to_table(
         encrypted = models.session.fernet.encrypt(value.encode(encoding="UTF-8"))
         database.put_secret(key, encrypted, table_name)
     LOGGER.info("%d secrets have been stored to the database.", len(env_vars))
+
+
+def transit_decrypt(
+    apikey: str, ciphertext: str | ByteString, key_length: int = 32
+) -> Dict[str, Any]:
+    """Decrypts the ciphertext into an appropriate payload.
+
+    Args:
+        apikey: API key that was used to encrypt the payload.
+        ciphertext: Encrypted ciphertext.
+        key_length: AES key size used during encryption.
+
+    Returns:
+        Dict[str, Any]:
+        Returns the decrypted payload.
+    """
+    hash_object = hashlib.sha256(apikey.encode())
+    aes_key = hash_object.digest()[:key_length]
+    if isinstance(ciphertext, str):
+        ciphertext = base64.b64decode(ciphertext)
+    decrypted = AESGCM(aes_key).decrypt(ciphertext[:12], ciphertext[12:], b"")
+    return json.loads(decrypted)

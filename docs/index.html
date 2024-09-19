@@ -274,6 +274,11 @@
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="vaultapi.models.Session.aes_key">
+<span class="sig-name descname"><span class="pre">aes_key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ByteString</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#vaultapi.models.Session.aes_key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="vaultapi.models.Session.info">
 <span class="sig-name descname"><span class="pre">info</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#vaultapi.models.Session.info" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -320,6 +325,11 @@
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="vaultapi.models.EnvConfig.transit_key_length">
+<span class="sig-name descname"><span class="pre">transit_key_length</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#vaultapi.models.EnvConfig.transit_key_length" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="vaultapi.models.EnvConfig.database">
 <span class="sig-name descname"><span class="pre">database</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#vaultapi.models.EnvConfig.database" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -360,27 +370,27 @@
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="vaultapi.models.EnvConfig.parse_allowed_origins">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_allowed_origins</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Url</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Url</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Url</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#vaultapi.models.EnvConfig.parse_allowed_origins" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="vaultapi.models.EnvConfig.validate_allowed_origins">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">validate_allowed_origins</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Url</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Url</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Url</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#vaultapi.models.EnvConfig.validate_allowed_origins" title="Permalink to this definition">¶</a></dt>
 <dd><p>Validate allowed origins to enable CORS policy.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="vaultapi.models.EnvConfig.parse_allowed_ip_range">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_allowed_ip_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#vaultapi.models.EnvConfig.parse_allowed_ip_range" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="vaultapi.models.EnvConfig.validate_allowed_ip_range">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">validate_allowed_ip_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#vaultapi.models.EnvConfig.validate_allowed_ip_range" title="Permalink to this definition">¶</a></dt>
 <dd><p>Validate allowed IP range to whitelist.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="vaultapi.models.EnvConfig.parse_apikey">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_apikey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#vaultapi.models.EnvConfig.parse_apikey" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse API key to validate complexity.</p>
+<dt class="sig sig-object py" id="vaultapi.models.EnvConfig.validate_apikey">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">validate_apikey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#vaultapi.models.EnvConfig.validate_apikey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate API key for complexity.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="vaultapi.models.EnvConfig.parse_api_secret">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_api_secret</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#vaultapi.models.EnvConfig.parse_api_secret" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse API secret to Fernet compatible.</p>
+<dt class="sig sig-object py" id="vaultapi.models.EnvConfig.validate_api_secret">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">validate_api_secret</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#vaultapi.models.EnvConfig.validate_api_secret" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate API secret to Fernet compatible.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -799,6 +809,81 @@ Raises the HTTPStatus object with a status code and detail as response.</p>
 </dd></dl>
 
 </section>
+<section id="module-vaultapi.transit">
+<span id="transmitter"></span><h1>Transmitter<a class="headerlink" href="#module-vaultapi.transit" title="Permalink to this heading">¶</a></h1>
+<p>Module that performs transit encryption/decryption.</p>
+<p>This allows the server to securely transmit the retrieved secret to be decrypted at the client side using the API key.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="vaultapi.transit.string_to_aes_key">
+<span class="sig-prename descclassname"><span class="pre">vaultapi.transit.</span></span><span class="sig-name descname"><span class="pre">string_to_aes_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ByteString</span></span></span><a class="headerlink" href="#vaultapi.transit.string_to_aes_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hashes the string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_string</strong> – String for which an AES hash has to be generated.</p></li>
+<li><p><strong>key_length</strong> – AES key size used during encryption.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt>AES supports three key lengths:</dt><dd><ul class="simple">
+<li><p>128 bits (16 bytes)</p></li>
+<li><p>192 bits (24 bytes)</p></li>
+<li><p>256 bits (32 bytes)</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Return the first 16 bytes for the AES key</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vaultapi.transit.encrypt">
+<span class="sig-prename descclassname"><span class="pre">vaultapi.transit.</span></span><span class="sig-name descname"><span class="pre">encrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url_safe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ByteString</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#vaultapi.transit.encrypt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encrypt a message using GCM mode with 12 fresh bytes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>payload</strong> – Payload to be encrypted.</p></li>
+<li><p><strong>url_safe</strong> – Boolean flag to perform base64 encoding to perform JSON serialization.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns the ciphertext as a string or bytes based on the <code class="docutils literal notranslate"><span class="pre">url_safe</span></code> flag.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ByteString | str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vaultapi.transit.decrypt">
+<span class="sig-prename descclassname"><span class="pre">vaultapi.transit.</span></span><span class="sig-name descname"><span class="pre">decrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ByteString</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#vaultapi.transit.decrypt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decrypt the ciphertext.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Raises InvalidTag if using wrong key</strong><strong> or </strong><strong>corrupted ciphertext.</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns the JSON serialized decrypted payload.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 <section id="module-vaultapi.util">
 <span id="util"></span><h1>Util<a class="headerlink" href="#module-vaultapi.util" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
@@ -812,6 +897,27 @@ Raises the HTTPStatus object with a status code and detail as response.</p>
 <li><p><strong>dotenv_file</strong> – Dot env filename.</p></li>
 <li><p><strong>drop_existing</strong> – Boolean flag to drop existing table.</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vaultapi.util.transit_decrypt">
+<span class="sig-prename descclassname"><span class="pre">vaultapi.util.</span></span><span class="sig-name descname"><span class="pre">transit_decrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">apikey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ByteString</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">32</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#vaultapi.util.transit_decrypt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decrypts the ciphertext into an appropriate payload.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>apikey</strong> – API key that was used to encrypt the payload.</p></li>
+<li><p><strong>ciphertext</strong> – Encrypted ciphertext.</p></li>
+<li><p><strong>key_length</strong> – AES key size used during encryption.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns the decrypted payload.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, Any]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -846,6 +952,7 @@ Raises the HTTPStatus object with a status code and detail as response.</p>
 <li><a class="reference internal" href="#module-vaultapi.rate_limit">RateLimit</a></li>
 <li><a class="reference internal" href="#module-vaultapi.routes">API Routes</a></li>
 <li><a class="reference internal" href="#module-vaultapi.squire">Squire</a></li>
+<li><a class="reference internal" href="#module-vaultapi.transit">Transmitter</a></li>
 <li><a class="reference internal" href="#module-vaultapi.util">Util</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>

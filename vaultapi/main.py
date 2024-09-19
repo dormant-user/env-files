@@ -6,7 +6,7 @@ from cryptography.fernet import Fernet
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from . import database, models, routes, squire, version
+from . import database, models, routes, squire, transit, version
 
 LOGGER = logging.getLogger("uvicorn.default")
 VaultAPI = FastAPI(
@@ -20,6 +20,9 @@ def __init__(**kwargs) -> None:
     """Instantiates the env, session and database connections."""
     models.env = squire.load_env(**kwargs)
     models.session.fernet = Fernet(models.env.secret)
+    models.session.aes_key = transit.string_to_aes_key(
+        input_string=models.env.apikey, key_length=models.env.transit_key_length
+    )
     models.database = models.Database(models.env.database)
     default_allowed = ("0.0.0.0", "127.0.0.1", "localhost")
     if models.env.host in default_allowed:
